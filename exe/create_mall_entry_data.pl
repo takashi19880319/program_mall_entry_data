@@ -16,7 +16,7 @@
 # ○楽天のモバイル用説明文について
 #   →楽天「モバイル用商品説明文」、ヤフー「explanation」は、
 #    商品コメントのテキストをそのまま引用
-#   ・<br>と<tr>を削除
+#   ・<br />と<tr>を削除
 # ○カラー、サイズのスペック表示について
 #   ・カラーとサイズの参照はgoods.csv
 #    amazon_specとyahooにサイズが入ってこない
@@ -544,7 +544,7 @@ while(my $image_num_line = $input_image_num_csv->getline($input_image_num_file_d
 	# 楽天用データを追加
 	&add_rakuten_data();
 	# Yahoo!用データを追加
-	&add_yahoo_data();
+#	&add_yahoo_data();
 }
 
 # 処理終了
@@ -719,9 +719,9 @@ sub add_rakuten_data {
 	# item.csvにデータを追加
 	&add_rakuten_item_data();
 	# select.csvにデータを追加
-	&add_rakuten_select_data();
+#	&add_rakuten_select_data();
 	# item-cat.csvにデータを追加
-	&add_rakuten_itemcat_data();
+#	&add_rakuten_itemcat_data();
 	return 0;
 }
 
@@ -780,7 +780,7 @@ sub add_rakuten_item_data {
 	$output_item_csv->combine(&create_ry_mb_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# スマートフォン用商品説明文
-	$output_item_csv->combine(&create_ry_mb_goods_spec()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# PC用販売説明文
 	$output_item_csv->combine(&create_r_pc_goods_detail()) or die $output_item_csv->error_diag();
@@ -1212,7 +1212,7 @@ sub create_r_pccatch_copy {
 	Encode::from_to( $jstr3, 'utf8', 'shiftjis' );
 	$catch_copy .= "$jstr3";
 	# 最後に改行コードを追加
-	$catch_copy .= "<br>";
+	$catch_copy .= "<br />";
 	return $catch_copy;
 }
 
@@ -1288,14 +1288,14 @@ ul.link1 li {list-style:none;padding:0 15px;margin:0 0 3px 0;background:url(http
 </style>
 <table width="600" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td><a href="http://event.rakuten.co.jp/asuraku/about/" target="_blank"><img src="http://www.rakuten.ne.jp/gold/hff/image/h_banaasuraku3.gif" border="0" alt="あす楽"></a><br><a href="http://www.rakuten.ne.jp/gold/hff/review/review2014.html" target="_blank"><img src="http://www.rakuten.ne.jp/gold/hff/review/new_review2014.gif" border="0" alt="レビューキャンペーン"></a><br><br></td>
+    <td><a href="http://event.rakuten.co.jp/asuraku/about/" target="_blank"><img src="http://www.rakuten.ne.jp/gold/hff/image/h_banaasuraku3.gif" border="0" alt="あす楽"></a><br /><a href="http://www.rakuten.ne.jp/gold/hff/review/review2014.html" target="_blank"><img src="http://www.rakuten.ne.jp/gold/hff/review/new_review2014.gif" border="0" alt="レビューキャンペーン"></a><br /><br /></td>
   </tr>
   <tr>
 </table>
 <table width="600" border="0" cellpadding="0" cellspacing="0">
 <tr>
 <td width="300" valign="top">
-<img src="http://www.rakuten.ne.jp/gold/hff/image/products_title.gif" border="0" alt="PRODUCT"><br>
+<img src="http://www.rakuten.ne.jp/gold/hff/image/products_title.gif" border="0" alt="PRODUCT"><br />
 <table width="290" border="0" cellpadding="2" cellspacing="0">
 <tr>
 <td>
@@ -1418,7 +1418,7 @@ HTML_STR_4
 	# サイズを追加
 	my $size_str = "サイズ";
 	Encode::from_to( $size_str, 'utf8', 'shiftjis' );
-	if (keys(%global_entry_goods_size_info) =! 0) {
+	if (keys(%global_entry_goods_size_info) != 0) {
 		my $size_goods_str="";
 		foreach my $size_goods_code (sort keys %global_entry_goods_size_info) {
 			my $add_size_str="";
@@ -1552,20 +1552,20 @@ HTML_STR_7
 
 my $html_str_whc=
 <<"HTML_STR_whc";
-・キズのように見える白い線や表面の白い粉は、多くが表面に表れた蝋で、ブライドルレザー特有のものです。<br>
-・蝋はそのままの状態で発送させていただいております。<br>
-・蝋は柔らかい布で拭いたり、ブラッシングすると取れます。<br>
-・天然の革製品ですので、多少のシワやキズ、色ムラなどがある場合がございます。<br>
+・キズのように見える白い線や表面の白い粉は、多くが表面に表れた蝋で、ブライドルレザー特有のものです。<br />
+・蝋はそのままの状態で発送させていただいております。<br />
+・蝋は柔らかい布で拭いたり、ブラッシングすると取れます。<br />
+・天然の革製品ですので、多少のシワやキズ、色ムラなどがある場合がございます。<br />
 HTML_STR_whc
         Encode::from_to( $html_str_whc, 'utf8', 'shiftjis' );
 my $html_str_coos=
 <<"HTML_STR_coos";
-【ご注文にあたり、必ずお読みください】<br>
+【ご注文にあたり、必ずお読みください】<br />
 ●コースは天然素材を使用し、ハンドメイドで作られているため、製造工程上、傷、シミ、汚れ、色ムラ（色の濃淡）、大きさやステッチなど仕上がりの不均一感がほとんどの商品に見られます。これらはすべてKOOSならではの独特の風合いであり、不良品ではございません。<div style="text-align:center;margin:5 auto;"><img src="http://image.rakuten.co.jp/hff/cabinet/web/2k-extra.jpg"></div>
-●コースの箱は、輸入の過程で、破損、傷、汚れが生じる場合があります。また箱にマジック等での記載がある場合がございますが、不良品ではございません。<br>
-※上記記載事項を理由とする返品・交換は一切お受けできませんので、ご理解いただける方のみご注文ください。<br>
-●コースのサイズ感は表記サイズが同じでもデザインによって異なります。<br>
-サイズチャートをご確認の上、ご注文ください。<br>
+●コースの箱は、輸入の過程で、破損、傷、汚れが生じる場合があります。また箱にマジック等での記載がある場合がございますが、不良品ではございません。<br />
+※上記記載事項を理由とする返品・交換は一切お受けできませんので、ご理解いただける方のみご注文ください。<br />
+●コースのサイズ感は表記サイズが同じでもデザインによって異なります。<br />
+サイズチャートをご確認の上、ご注文ください。<br />
 HTML_STR_coos
         Encode::from_to( $html_str_coos, 'utf8', 'shiftjis' );
 
@@ -1584,7 +1584,7 @@ HTML_STR_coos
 
 my $html_str8=
 <<"HTML_STR_8";
-・当店では、他店舗と在庫データを共有しているため、まれに売り切れや入荷待ちの場合がございます。<br>・<a href="http://www.rakuten.ne.jp/gold/hff/howto3.html">商品在庫についてはこちらをご覧ください。</a> </td>
+・当店では、他店舗と在庫データを共有しているため、まれに売り切れや入荷待ちの場合がございます。<br />・<a href="http://www.rakuten.ne.jp/gold/hff/howto3.html">商品在庫についてはこちらをご覧ください。</a> </td>
 </tr>
 </table>
 HTML_STR_8
@@ -1618,7 +1618,7 @@ sub create_ry_mb_goods_spec {
 	# サイズを追加
 	my $size_str = "サイズ";
 	Encode::from_to( $size_str, 'utf8', 'shiftjis' );	
-	if (keys(%global_entry_goods_size_info) =! 0) {
+	if (keys(%global_entry_goods_size_info) != 0) {
 		my $size_goods_str="";
 		foreach my $size_goods_code (sort keys %global_entry_goods_size_info) {
 			my $add_size_str="";
@@ -1666,7 +1666,7 @@ sub create_ry_mb_goods_spec {
 	my $specs_count = @specs;
 	for (my $i=0; $i < $specs_count; $i+=2) {
 		my $spec_info = $specs[$i+1];
-		my $before_rep_str_spec1="<br>";
+		my $before_rep_str_spec1="<br />";
 		my $after_rep_str_spec1=" ";
 		$spec_info =~ s/$before_rep_str_spec1/$after_rep_str_spec1/g;
 		my $before_rep_str_spec2="<br />";
@@ -1686,8 +1686,8 @@ sub create_ry_mb_goods_spec {
 		$mb_goods_spec .= "$maker_code".$coron."$global_entry_goods_info[6]";
 	}
 =cut
-	# 最後に<br>タグを2つ追加
-#	$mb_goods_spec .= "<br><br>";
+	# 最後に<br />タグを2つ追加
+#	$mb_goods_spec .= "<br /><br />";
 	# 商品コメント2を取得し、コメント修正
 	my $goods_info2 = $global_entry_goods_supp_info[1];
 	my $before_rep_str3="<table.*>";
@@ -1776,7 +1776,7 @@ sub create_ry_mb_goods_spec {
 						$mb_goods_spec .= $slash;
 					}
 					else {
-						$mb_goods_spec .= "<br>";
+						$mb_goods_spec .= "<br />";
 					}
 					$skip=1;
 					$item_count=0;
@@ -1806,14 +1806,14 @@ HTML_STR_coos
 	
 	#WHC, COOSの場合は文言追加
 	if (&get_info_from_xml("brand_name") eq $whc_str){
-		$mb_goods_spec .= "<br>";
+		$mb_goods_spec .= "<br />";
 		$mb_goods_spec .= "$html_str_whc";
-		$mb_goods_spec .= "<br><br>";
+		$mb_goods_spec .= "<br /><br />";
 	}
 	elsif (&get_info_from_xml("brand_name") eq $coos_str) {
-		$mb_goods_spec .= "<br>";
+		$mb_goods_spec .= "<br />";
 		$mb_goods_spec .= "$html_str_coos";
-		$mb_goods_spec .= "<br><br>";
+		$mb_goods_spec .= "<br /><br />";
 	}
 =cut
 	# 1024byte制限チェック
@@ -1828,6 +1828,335 @@ HTML_STR_coos
 }
 
 ##############################
+## (楽天)スマートフォン用説明文の生成
+##############################
+sub create_ry_smp_goods_spec {
+	my $smp_goods_spec = "";
+	# 商品番号を追加
+	my $str_goods_code = "商品番号";
+	Encode::from_to( $str_goods_code, 'utf8', 'shiftjis' );
+	my $coron="：";
+	Encode::from_to( $coron, 'utf8', 'shiftjis' );
+	my $slash="／";
+	Encode::from_to( $slash, 'utf8', 'shiftjis' );
+	my $entry_code =$global_entry_goods_info[0];
+	$smp_goods_spec .= "$str_goods_code"."$coron"."$entry_code"."$slash";
+	# 商品スペックを追加
+	my @specs;
+	my $spec_count = @global_entry_goods_spec_info;
+	foreach my $spec_sort_num ( @globel_spec_sort ) {
+		for (my $i=0; $i < $spec_count; $i+=2) {
+			my $spec_num = $global_entry_goods_spec_info[$i];
+			my $spec_name = &get_spec_info_from_xml($spec_num);
+			my $spec_info="";
+			if ($spec_num ne $spec_sort_num) {
+				next;
+			}
+			if ($spec_num == 7) {
+				# ギフトのパッケージ名を変換
+				my $gift_name="GLOBERオリジナルパッケージ";
+				Encode::from_to( $gift_name, 'utf8', 'shiftjis' );
+				chomp $global_entry_goods_spec_info[$i+1];
+				if ($global_entry_goods_spec_info[$i+1] eq $gift_name) {
+					$spec_info = "当店オリジナルパッケージ";
+					Encode::from_to( $spec_info, 'utf8', 'shiftjis' );
+				}
+				else {
+					$spec_info = $global_entry_goods_spec_info[$i+1];
+				}
+			}
+			else {
+				$spec_info = $global_entry_goods_spec_info[$i+1];
+				chomp $spec_info;
+			}
+			push(@specs, $spec_name);
+			push(@specs, $spec_info);
+			last;
+		}
+	}
+	# 商品スペックを追加
+	my $specs_count = @specs;
+	for (my $i=0; $i < $specs_count; $i+=2) {
+		my $spec_info = $specs[$i+1];
+		my $before_rep_str_spec1="<br />";
+		my $after_rep_str_spec1=" ";
+		$spec_info =~ s/$before_rep_str_spec1/$after_rep_str_spec1/g;
+		my $before_rep_str_spec2="<br />";
+		my $after_rep_str_spec2=" ";
+		$spec_info =~ s/$before_rep_str_spec2/$after_rep_str_spec2/g;
+		$smp_goods_spec .= "$specs[$i]"."$coron"."$spec_info";
+		# 最後以外は／で区切る
+		if (($i+2) < $specs_count) {
+			$smp_goods_spec .= $slash."<br />";
+		}
+	}
+	# 商品コメント1を出力する。
+	my $goods_comment_1 = $global_entry_goods_supp_info[0] || "";
+	my $before_rep_str0="<ul class=\"link1\">.*<\/ul>";
+	my $after_rep_str0="";
+	$goods_comment_1 =~ s/$before_rep_str0/$after_rep_str0/g;
+	#　消費税増税バナーを削除
+	my $after_rep_str1="";
+	my $before_rep_str1="<br \/><br \/><p>.*<\/p>";	
+	$goods_comment_1 =~ s/$before_rep_str1/$after_rep_str1/g;	
+	#　<span class="itemComment">を削除
+	my $after_rep_str2="";
+	my $before_rep_str2="<span class=\"itemComment\">";
+	$goods_comment_1 =~ s/$before_rep_str2/$after_rep_str2/g;
+	#　</span>を削除
+	my $after_rep_str3="";
+	my $before_rep_str3="</span>";
+	$goods_comment_1 =~ s/$before_rep_str3/$after_rep_str3/g;
+	# フェリージのリンク変換1
+	my $after_rep_str4="<a href=\"http://link.rakuten.co.jp/0/048/566/";
+	my $before_rep_str4="<a href=\"http://seal.*FCS&f2=glober.jp";
+	$goods_comment_1 =~ s/$before_rep_str4/$after_rep_str4/g;
+	# フェリージのリンク変換2
+	my $after_rep_str5="http://image.rakuten.co.jp/hff/cabinet/pic/felisi/felisi_seal.gif";
+	my $before_rep_str5="http://seal.felisi.net/FCSSeal/images/fcs_230x60_json.gif";
+	$goods_comment_1 =~ s/$before_rep_str5/$after_rep_str5/g;
+	# フォックスのリンク変換
+	my $after_rep_str6="http://www.rakuten.ne.jp/gold/hff/brand/foxumbrellas/fx_repair.html";
+	my $before_rep_str6="http://blog.glober.jp.*1526#repair";
+	$goods_comment_1 =~ s/$before_rep_str6/$after_rep_str6/;
+	# ジョンストンズのリンク削除
+	my $after_rep_str7="";
+	my $before_rep_str7="<br /><br />.*alt=\"johnstons\">";
+	$goods_comment_1 =~ s/$before_rep_str7/$after_rep_str7/g;
+	# 商品コメント1を追加
+	$smp_goods_spec .= $goods_comment_1;
+	# 5000円未満の商品は送料無料の注意書きを入れる。
+	if ($global_entry_goods_info[3] < 5000){
+		my $additional_str = "<br /><br />※5,000円以上のお買い上げで送料無料";
+		Encode::from_to( $additional_str, 'utf8', 'shiftjis' );
+		$smp_goods_spec .= "$additional_str\n";
+	}
+my $html_str_whc=
+<<"HTML_STR_whc";
+<br />キズのように見える白い線や表面の白い粉は、多くが表面に表れた蝋です。蝋は柔らかい布で拭いたり、ブラッシングすると取れます。天然の革製品ですので、多少のシワやキズ、色ムラなどがある場合がございます。
+HTML_STR_whc
+        Encode::from_to( $html_str_whc, 'utf8', 'shiftjis' );
+my $html_str_coos=
+<<"HTML_STR_coos";
+<br />※製造工程上、小さな傷、シワ、色ムラ（色の濃淡）、大きさやステッチなど仕上がりの不均一感がほとんどの商品に見られます。不良品ではございません。
+HTML_STR_coos
+        Encode::from_to( $html_str_coos, 'utf8', 'shiftjis' );
+
+	my $whc_str="ホワイトハウスコックス/Whitehouse Cox";
+        Encode::from_to( $whc_str, 'utf8', 'shiftjis' );
+	my $coos_str="コース/Koos";
+        Encode::from_to( $coos_str, 'utf8', 'shiftjis' );
+	
+	#WHC, COOSの場合は文言追加
+	if (&get_info_from_xml("brand_name") eq $whc_str){
+		$smp_goods_spec .= "<br />";
+		$smp_goods_spec .= "$html_str_whc";
+		$smp_goods_spec .= "<br /><br />";
+	}
+	elsif (&get_info_from_xml("brand_name") eq $coos_str) {
+		$smp_goods_spec .= "<br />";
+		$smp_goods_spec .= "$html_str_coos";
+		$smp_goods_spec .= "<br /><br />";
+	}
+	#　※※※$smp_goods_specにすべての項目を格納し出力する。※※※
+	# 商品コメント2を取得
+	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
+	my $before_rep_str8="\n\n";
+	my $after_rep_str8="\n";
+	$goods_info_smp =~ s/$before_rep_str8/$after_rep_str8/g;
+	# <span>タグの削除
+	my $before_rep_str8_1="<span>";
+	my $after_rep_str8_1="";
+	$goods_info_smp =~ s/$before_rep_str8_1/$after_rep_str8_1/g;
+	# </span>タグの削除
+	my $before_rep_str8_2="</span>";
+	my $after_rep_str8_2="";
+	$goods_info_smp =~ s/$before_rep_str8_2/$after_rep_str8_2/g;
+	# 1行ごとにサイズ要素のみの配列を作る
+	my $before_str9="<table class=\"infoTable\"><tr><td><table>";
+	my $after_str9="";
+	$goods_info_smp =~ s/$before_str9/$after_str9/g;
+	# 1行ごとにサイズ要素のみの配列を作る
+	my $before_str10="<\/table><\/td><\/tr><\/table>";
+	my $after_str10="";	
+	$goods_info_smp =~ s/$before_str10/$after_str10/g;
+	# サイズチャートがgoods_suppに入力されている場合
+	if ($goods_info_smp ne "") {
+		# スマホ用サイズチャートのヘッダー
+		my $smp_sizechart_header = "<br /><br />【サイズチャート】\n" || "";
+		Encode::from_to( $smp_sizechart_header, 'utf8', 'shiftjis' );
+		# GLOBERのサイズチャートを改行で分割して配列にする
+		my @goods_info_str_list_tr = split(/<tr>/, $goods_info_smp);
+		my @goods_info_str_list_sub = split(/<\/th>/, $goods_info_str_list_tr[1]);
+		# GLOBERのサイズチャートの行数を格納する
+		my $goods_info_str_list_count=@goods_info_str_list_tr;
+		# スマホサイズチャートを宣言
+		my $smp_sizechart ="$smp_sizechart_header";
+		#GLOBERのサイズチャートを<tr>の行ごとに読み込み、1行ずつ処理して変数に追加していく。
+		my $i=2;
+		# 1行<tr>にあたりにおけるサイズの項目数
+		my $size_i=0;
+		while ($i <= $goods_info_str_list_count-1){
+			# 1行ごとにサイズ要素のみの配列を作る
+			my $before_str1="<\/tr>";
+			my $after_str1="";	
+			$goods_info_str_list_tr[$i] =~ s/$before_str1/$after_str1/g;
+			my @goods_info_str_list_size = split(/<\/td><td>/, $goods_info_str_list_tr[$i]);
+			# サイズの要素数を格納する
+			my $goods_info_str_list_size_count=@goods_info_str_list_size;
+			# サイズ要素数が1つのとき
+			if ($goods_info_str_list_size_count ==2){
+				if ($size_i==0){
+					my $before_str_1="<td class=\'col01\'>";
+					my $before_str_2="<td class=\"col01\">";
+					my $after_str="<br />";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_1/$after_str/g;
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str/g;
+					$goods_info_str_list_size[$size_i] = "$goods_info_str_list_size[$size_i]";
+					$smp_sizechart .= $goods_info_str_list_size[$size_i];
+					$size_i++;
+					next;
+				}
+				else {
+					# サイズ項目の余計な文字列を削除
+					my $before_str="<th>";
+					my $after_str="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str/$after_str/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\/tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/td><\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/td>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_4="<\/tr>";
+					my $after_str_4="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "("."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
+					$size_i=0;
+					$i++;
+				}
+			}
+			# サイズ要素数が2以上のとき
+			else{
+				# サイズ要素のみの配列を1つずつサイズの要素とサイズ項目を組み合わせてスマホ用サイズチャートを作る
+				# 1番目はサイズで余分な文字列を省き、ヘッダーを追加してサイズチャートに格納する
+				if ($size_i==0){
+					my $before_str_1="<td class=\'col01\'>";
+					my $before_str_2="<td class=\"col01\">";
+					my $after_str="<br />";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_1/$after_str/g;
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str/g;
+					$goods_info_str_list_size[$size_i] = "$goods_info_str_list_size[$size_i]";
+					$smp_sizechart .= $goods_info_str_list_size[$size_i];
+					$size_i++;
+					next;
+				}
+				# 2番目はサイズ要素のスタートなので、（をつけて1番目のサイズ項目を組み合わせてサイズチャートに格納する
+				elsif($size_i==1 ){
+					# サイズ項目の余計な文字列を削除
+					my $before_str="<th>";
+					my $after_str="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str/$after_str/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\/tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/td><\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/td>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_4="<\/tr>";
+					my $after_str_4="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "("."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]";
+					$size_i++;
+					next;
+				}
+				elsif($size_i<$goods_info_str_list_size_count-1){
+					# サイズ項目の余計な文字列を削除
+					my $before_str_0="<th>";
+					my $after_str_0="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_0/$after_str_0/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\/tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/td><\/tr>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]";
+					$size_i++;
+					next;
+				}
+				else{
+					# サイズ項目の余計な文字列を削除
+					my $before_str_0="<th>";
+					my $after_str_0="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_0/$after_str_0/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/td><\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/tr>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_4="<\/td>";
+					my $after_str_4="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
+					$size_i=0;
+					$i++;
+				}
+			}
+		}
+		$smp_goods_spec .=$smp_sizechart;
+	}
+my $html_str_end=
+<<"HTML_STR_end";
+<br /><br />・ディスプレイにより、実物と色、イメージが異なる事がございます。あらかじめご了承ください。
+<br />・当店では、他店舗と在庫データを共有しているため、まれに売り切れや入荷待ちの場合がございます。
+HTML_STR_end
+	Encode::from_to( $html_str_end, 'utf8', 'shiftjis' );
+	$smp_goods_spec .=$html_str_end;
+	# 5120byte制限チェック
+	my $len = length $smp_goods_spec;
+	if ($len > 5120) {
+		# ログファイル出力
+		my $warn = "スマートフォン用商品説明文がサイズ制限(5120byte)を超えています。商品番号：$global_entry_goods_info[0] サイズ：$len(byte)";
+		Encode::from_to( $warn, 'utf8', 'shiftjis' );
+		&output_log("$warn\n");
+	}
+	return $smp_goods_spec;
+}
+
+##############################
 ## (楽天)PC用販売説明文の生成
 ##############################
 sub create_r_pc_goods_detail {
@@ -1835,7 +2164,7 @@ my $html_str1=
 <<"HTML_STR_1";
 <!--タイトルここから -->
 
-<img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" alt="" height="2" border="0"><br>
+<img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" alt="" height="2" border="0"><br />
 <h1>
 HTML_STR_1
         Encode::from_to( $html_str1, 'utf8', 'shiftjis' );
@@ -1844,8 +2173,8 @@ my $html_str2=
 <<"HTML_STR_2";
 </h1>
 <img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" height="20" alt="" border="0">
-<img src="http://www.rakuten.ne.jp/gold/hff/image/line_dot_640.jpg" width="600" height="5" alt="" border="0"><br>
-<br>
+<img src="http://www.rakuten.ne.jp/gold/hff/image/line_dot_640.jpg" width="600" height="5" alt="" border="0"><br />
+<br />
 <!--タイトルここまで -->
 
 
@@ -1861,8 +2190,8 @@ my $html_str3=
 <<"HTML_STR_3";
 .gif" alt="" border="0">
 <!--ブランドプロフィール画像 ここまで-->
-<br>
-<img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" height="10" alt="" border="0"><br>
+<br />
+<img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" height="10" alt="" border="0"><br />
 <!--商品画像A -->
 <center><img src="http://image.rakuten.co.jp/hff/cabinet/pic/
 HTML_STR_3
@@ -1872,8 +2201,8 @@ my $html_str3_womens=
 <<"HTML_STR_3_WOMENS";
 .gif" alt="" border="0">
 <!--ブランドプロフィール画像 ここまで-->
-<br>
-<img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" height="10" alt="" border="0"><br>
+<br />
+<img src="http://www.rakuten.ne.jp/gold/hff/image/spacer.gif" width="600" height="10" alt="" border="0"><br />
 <!--商品画像A -->
 <center><img src="http://image.rakuten.co.jp/hff/cabinet/pic/
 HTML_STR_3_WOMENS
@@ -1898,7 +2227,7 @@ HTML_STR_4
         chomp($html_str4);
 my $html_str5=
 <<"HTML_STR_5";
-" border="0"><br>
+" border="0"><br />
 
 HTML_STR_5
         chomp($html_str5);
@@ -1919,8 +2248,8 @@ HTML_STR_5
 # 画像部分の固定文言
 my $html_str5_1=
 <<"HTML_STR_5_1";
-<img src="http://www.rakuten.ne.jp/gold/hff/image/expansion_title.gif" width="600" height="48" alt="" border="0"><br>
-<br></center>
+<img src="http://www.rakuten.ne.jp/gold/hff/image/expansion_title.gif" width="600" height="48" alt="" border="0"><br />
+<br /></center>
 HTML_STR_5_1
         chomp($html_str5_1);
 
@@ -2278,7 +2607,7 @@ HTML_STR_4
 	# サイズを追加
 	my $size_str = "サイズ";
 	Encode::from_to( $size_str, 'utf8', 'shiftjis' );	
-	if (keys(%global_entry_goods_size_info) =! 0) {
+	if (keys(%global_entry_goods_size_info) != 0) {
 		my $size_goods_str="";
 		foreach my $size_goods_code (sort keys %global_entry_goods_size_info) {
 			my $add_size_str="";
@@ -2390,10 +2719,10 @@ HTML_STR_6
 ##############################
 sub create_y_explanation {
 	my $explanation=create_ry_mb_goods_spec();
-# <br>タグは使用可能？？
+# <br />タグは使用可能？？
 =pod
-	# <br>, <br />タグを半角スペースに置換
-	my $before_rep_str1="<br>";
+	# <br />, <br />タグを半角スペースに置換
+	my $before_rep_str1="<br />";
 	my $before_rep_str2="<br />";
 	my $after_rep_str=" ";
 	$explanation =~ s/$before_rep_str1/$after_rep_str/g;
@@ -2431,8 +2760,8 @@ my $html_str1=
 <<"HTML_STR_1";
 <table width="630" border="0" cellspacing="0" cellpadding="0">
 <tr>
-<td align="center"><br>
-<img src="http://lib7.store.yahoo.co.jp/lib/hff/spacer.gif" height=10 border=0><br>
+<td align="center"><br />
+<img src="http://lib7.store.yahoo.co.jp/lib/hff/spacer.gif" height=10 border=0><br />
 <!--商品画像A -->
 <img src="http://item.shopping.c.yimg.jp/i/f/hff_
 HTML_STR_1
@@ -2446,13 +2775,13 @@ HTML_STR_2
         chomp($html_str2);
 my $html_str3=
 <<"HTML_STR_3";
-" border="0"><br><br>
+" border="0"><br /><br />
 HTML_STR_3
         chomp($html_str3);
 my $html_str4=
 <<"HTML_STR_4";
 <img src="http://shopping.c.yimg.jp/lib/hff/expansion_title.gif" width="600" height="48" alt="" border="0">
-</center><br>
+</center><br />
 HTML_STR_4
         chomp($html_str4);
        
@@ -2611,20 +2940,20 @@ HTML_STR_1
         
 my $html_str_whc=
 <<"HTML_STR_whc";
-・キズのように見える白い線や表面の白い粉は、多くが表面に表れた蝋で、ブライドルレザー特有のものです。<br>
-・蝋はそのままの状態で発送させていただいております。<br>
-・蝋は柔らかい布で拭いたり、ブラッシングすると取れます。<br>
-・天然の革製品ですので、多少のシワやキズ、色ムラなどがある場合がございます。<br>
+・キズのように見える白い線や表面の白い粉は、多くが表面に表れた蝋で、ブライドルレザー特有のものです。<br />
+・蝋はそのままの状態で発送させていただいております。<br />
+・蝋は柔らかい布で拭いたり、ブラッシングすると取れます。<br />
+・天然の革製品ですので、多少のシワやキズ、色ムラなどがある場合がございます。<br />
 HTML_STR_whc
         Encode::from_to( $html_str_whc, 'utf8', 'shiftjis' );
 my $html_str_coos=
 <<"HTML_STR_coos";
-【ご注文にあたり、必ずお読みください】<br>
+【ご注文にあたり、必ずお読みください】<br />
 ●コースは天然素材を使用し、ハンドメイドで作られているため、製造工程上、傷、シミ、汚れ、色ムラ（色の濃淡）、大きさやステッチなど仕上がりの不均一感がほとんどの商品に見られます。これらはすべてKOOSならではの独特の風合いであり、不良品ではございません。<div style="text-align:center;margin:5 auto;"><img src="http://image.rakuten.co.jp/hff/cabinet/web/2k-extra.jpg"></div>
-●コースの箱は、輸入の過程で、破損、傷、汚れが生じる場合があります。また箱にマジック等での記載がある場合がございますが、不良品ではございません。<br>
-※上記記載事項を理由とする返品・交換は一切お受けできませんので、ご理解いただける方のみご注文ください。<br>
-●コースのサイズ感は表記サイズが同じでもデザインによって異なります。<br>
-サイズチャートをご確認の上、ご注文ください。<br>
+●コースの箱は、輸入の過程で、破損、傷、汚れが生じる場合があります。また箱にマジック等での記載がある場合がございますが、不良品ではございません。<br />
+※上記記載事項を理由とする返品・交換は一切お受けできませんので、ご理解いただける方のみご注文ください。<br />
+●コースのサイズ感は表記サイズが同じでもデザインによって異なります。<br />
+サイズチャートをご確認の上、ご注文ください。<br />
 HTML_STR_coos
         Encode::from_to( $html_str_coos, 'utf8', 'shiftjis' );
 
@@ -2643,9 +2972,9 @@ HTML_STR_coos
 
 my $html_str2=
 <<"HTML_STR_2";
-・ディスプレイにより、実物と色、イメージが異なる事がございます。あらかじめご了承ください。<br>
-・当店では、他店舗と在庫データを共有しているため、まれに売り切れや入荷待ちの場合がございます。<br>
-・<a href='howto3.html' target='_blank'>商品在庫についてはこちらをご覧ください。</a><br>・<a href='inforepair.html' target='_blank'>お直しについてはこちらをご覧ください。</a></font></td>
+・ディスプレイにより、実物と色、イメージが異なる事がございます。あらかじめご了承ください。<br />
+・当店では、他店舗と在庫データを共有しているため、まれに売り切れや入荷待ちの場合がございます。<br />
+・<a href='howto3.html' target='_blank'>商品在庫についてはこちらをご覧ください。</a><br />・<a href='inforepair.html' target='_blank'>お直しについてはこちらをご覧ください。</a></font></td>
 </tr>
 </table>
 HTML_STR_2
