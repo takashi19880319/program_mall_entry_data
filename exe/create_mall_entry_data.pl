@@ -1878,18 +1878,19 @@ sub create_ry_smp_goods_spec {
 	my $specs_count = @specs;
 	for (my $i=0; $i < $specs_count; $i+=2) {
 		my $spec_info = $specs[$i+1];
-		my $before_rep_str_spec1="<br />";
+		my $before_rep_str_spec1="<br \/>";
 		my $after_rep_str_spec1=" ";
 		$spec_info =~ s/$before_rep_str_spec1/$after_rep_str_spec1/g;
-		my $before_rep_str_spec2="<br />";
+		my $before_rep_str_spec2="<br \/>";
 		my $after_rep_str_spec2=" ";
 		$spec_info =~ s/$before_rep_str_spec2/$after_rep_str_spec2/g;
 		$smp_goods_spec .= "$specs[$i]"."$coron"."$spec_info";
 		# 最後以外は／で区切る
 		if (($i+2) < $specs_count) {
-			$smp_goods_spec .= $slash."<br />";
+			$smp_goods_spec .= $slash;
 		}
 	}
+	$smp_goods_spec .="<br \/><br \/>";
 	# 商品コメント1を出力する。
 	my $goods_comment_1 = $global_entry_goods_supp_info[0] || "";
 	my $before_rep_str0="<ul class=\"link1\">.*<\/ul>";
@@ -2130,7 +2131,7 @@ HTML_STR_coos
 					my $after_str_4="";	
 					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
 					chomp($goods_info_str_list_size[$size_i]);
-					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
+					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."<br />"."\n";
 					$size_i=0;
 					$i++;
 				}
