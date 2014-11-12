@@ -731,6 +731,116 @@ sub add_rakuten_data {
 sub add_rakuten_item_data {
 	# 各値をCSVファイルに書き出す
 	# コントロールカラム
+	$output_item_csv->combine("u") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 商品管理番号
+	$output_item_csv->combine($global_entry_goods_info[0]) or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 商品番号
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 全商品ディレクトリ(手動で入力する必要がある)
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# タグID
+	my $tag_id="";
+	if (length($global_entry_goods_info[0]) == 7) {
+		# SKUの場合はサイズのtagidを出力
+		$tag_id=&create_r_tag_id();
+	}
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# PC用キャッチコピー
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# モバイル用キャッチコピー
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 商品名
+	$output_item_csv->combine(&create_ry_goods_name()) or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 販売価格
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 表示価格
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 送料
+	my $output_postage_str="";
+	if ($global_entry_goods_info[3] >= 5000) {$output_postage_str="1";}
+	else {$output_postage_str="0";}
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 商品情報レイアウト
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# PC用商品説明文
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# モバイル用商品説明文
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# スマートフォン用商品説明文
+	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# PC用販売説明文
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 商品画像URL
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 在庫タイプ
+	my $output_stocktype_str="";
+	if (length($global_entry_goods_info[0]) == 7) {$output_stocktype_str="2";}
+	else {$output_stocktype_str="1";}
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 在庫数
+	my $output_stocknum_str="";
+	if (length($global_entry_goods_info[0]) == 7) {$output_stocknum_str="";}
+	else {$output_stocknum_str="0";}
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 在庫数表示
+	my $output_stockdisplay_str="";
+	if (length($global_entry_goods_info[0]) == 7) {$output_stockdisplay_str="";}
+	else {$output_stockdisplay_str="0";}
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 項目選択肢別在庫用横軸項目名
+	my $output_stockitem_str="";
+	if (length($global_entry_goods_info[0]) == 7) {$output_stockitem_str="サイズ";}
+	else {$output_stockitem_str="";}
+	Encode::from_to( $output_stockitem_str, 'utf8', 'shiftjis' );
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 項目選択肢別在庫用縦軸項目名
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 在庫あり時納期管理番号
+	my $output_stockcode_str="";
+	if (length($global_entry_goods_info[0]) == 7) {$output_stockcode_str="";}
+	else {$output_stockcode_str="14";}
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# あす楽配送管理番号
+	$output_item_csv->combine("1") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# 再入荷お知らせボタン
+	$output_item_csv->combine("1") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# ポイント変倍率
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	print $output_item_file_disc $output_item_csv->string(), ",";
+	# ポイント変倍率適用期間
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
+	#最後に改行を追加
+	print $output_item_file_disc $output_item_csv->string(), "\n";
+	return 0;
+}
+=pod
+sub add_rakuten_item_data {
+	# 各値をCSVファイルに書き出す
+	# コントロールカラム
 	$output_item_csv->combine("n") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品管理番号
@@ -821,9 +931,6 @@ sub add_rakuten_item_data {
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockcode_str="";}
 	else {$output_stockcode_str="14";}
 	$output_item_csv->combine($output_stockcode_str) or die $output_item_csv->error_diag();
-=pod
-	$output_item_csv->combine("") or die $output_item_csv->error_diag();
-=cut
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# あす楽配送管理番号
 	$output_item_csv->combine("1") or die $output_item_csv->error_diag();
@@ -840,6 +947,7 @@ sub add_rakuten_item_data {
 	print $output_item_file_disc $output_item_csv->string(), "\n";
 	return 0;
 }
+=cut
 
 ##############################
 ## 楽天用select.csvファイルにデータを追加
@@ -1849,6 +1957,9 @@ sub create_ry_smp_goods_spec {
 	# 商品スペックを追加
 	my @specs;
 	my $spec_count = @global_entry_goods_spec_info;
+	foreach my $specs (@global_entry_goods_spec_info){
+		print $specs."\n";
+	}
 	foreach my $spec_sort_num ( @globel_spec_sort ) {
 		for (my $i=0; $i < $spec_count; $i+=2) {
 			my $spec_num = $global_entry_goods_spec_info[$i];
