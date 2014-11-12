@@ -1837,10 +1837,29 @@ sub create_ry_smp_goods_spec {
 	Encode::from_to( $str_goods_code, 'utf8', 'shiftjis' );
 	my $coron="：";
 	Encode::from_to( $coron, 'utf8', 'shiftjis' );
-	my $slash="／";
-	Encode::from_to( $slash, 'utf8', 'shiftjis' );
+	my $paragraph="<br />";
 	my $entry_code =$global_entry_goods_info[0];
-	$smp_goods_spec .= "$str_goods_code"."$coron"."$entry_code"."$slash";
+	$smp_goods_spec .= "$str_goods_code"."$coron"."$entry_code"."$paragraph";
+	# カラーを追加
+	if ($global_entry_goods_info[5] ne "") {
+		my $color_str = "カラー";
+		Encode::from_to( $color_str, 'utf8', 'shiftjis' );
+		$smp_goods_spec .= "$color_str"."$coron"."$global_entry_goods_info[5]"."$paragraph";
+	}
+	# サイズを追加
+	my $size_str = "サイズ";
+	Encode::from_to( $size_str, 'utf8', 'shiftjis' );	
+	if (keys(%global_entry_goods_size_info) != 0) {
+		my $size_goods_str="";
+		foreach my $size_goods_code (sort keys %global_entry_goods_size_info) {
+			my $add_size_str="";
+			if ($size_goods_str ne "") {
+				$add_size_str=" ";	
+			}
+			$size_goods_str .= "$add_size_str"."$global_entry_goods_size_info{$size_goods_code}";
+		}
+		$smp_goods_spec .= "$size_str"."$coron"."$size_goods_str"."$paragraph";
+	}
 	# 商品スペックを追加
 	my @specs;
 	my $spec_count = @global_entry_goods_spec_info;
@@ -1887,7 +1906,7 @@ sub create_ry_smp_goods_spec {
 		$smp_goods_spec .= "$specs[$i]"."$coron"."$spec_info";
 		# 最後以外は／で区切る
 		if (($i+2) < $specs_count) {
-			$smp_goods_spec .= $slash;
+			$smp_goods_spec .= $paragraph;
 		}
 	}
 	$smp_goods_spec .="<br \/><br \/>";
@@ -1962,8 +1981,8 @@ HTML_STR_coos
 	#　※※※$smp_goods_specにすべての項目を格納し出力する。※※※
 	# 商品コメント2を取得
 	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
-	my $before_rep_str8="\n\n";
-	my $after_rep_str8="\n";
+	my $before_rep_str8="\\n\\n";
+	my $after_rep_str8="\\n";
 	$goods_info_smp =~ s/$before_rep_str8/$after_rep_str8/g;
 	# <span>タグの削除
 	my $before_rep_str8_1="<span>";
@@ -2131,12 +2150,15 @@ HTML_STR_coos
 					my $after_str_4="";	
 					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
 					chomp($goods_info_str_list_size[$size_i]);
-					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."<br />"."\n";
+					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
 					$size_i=0;
 					$i++;
 				}
 			}
 		}
+		my $before_str_5="\\n"."\)";
+		my $after_str_5="";	
+		$smp_sizechart =~ s/\n\)/\)/g;
 		$smp_goods_spec .=$smp_sizechart;
 	}
 my $html_str_end=
