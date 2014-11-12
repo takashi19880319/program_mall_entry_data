@@ -1846,20 +1846,6 @@ sub create_ry_smp_goods_spec {
 		Encode::from_to( $color_str, 'utf8', 'shiftjis' );
 		$smp_goods_spec .= "$color_str"."$coron"."$global_entry_goods_info[5]"."$paragraph";
 	}
-	# サイズを追加
-	my $size_str = "サイズ";
-	Encode::from_to( $size_str, 'utf8', 'shiftjis' );	
-	if (keys(%global_entry_goods_size_info) != 0) {
-		my $size_goods_str="";
-		foreach my $size_goods_code (sort keys %global_entry_goods_size_info) {
-			my $add_size_str="";
-			if ($size_goods_str ne "") {
-				$add_size_str=" ";	
-			}
-			$size_goods_str .= "$add_size_str"."$global_entry_goods_size_info{$size_goods_code}";
-		}
-		$smp_goods_spec .= "$size_str"."$coron"."$size_goods_str"."$paragraph";
-	}
 	# 商品スペックを追加
 	my @specs;
 	my $spec_count = @global_entry_goods_spec_info;
