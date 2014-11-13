@@ -402,6 +402,7 @@ our @global_entry_goods_supp_info;
 our @global_entry_goods_spec_info;
 our %global_entry_genre_goods_info;
 our $global_category_priority=1;
+my $smp_yahoo_spec ="";
 
 ## Yahoo!のydata.csv:relevant_linksデータ用にデータを保持
 our @global_item_list=<$input_image_num_file_disc>;
@@ -544,7 +545,7 @@ while(my $image_num_line = $input_image_num_csv->getline($input_image_num_file_d
 	# 楽天用データを追加
 	&add_rakuten_data();
 	# Yahoo!用データを追加
-#	&add_yahoo_data();
+	&add_yahoo_data();
 }
 
 # 処理終了
@@ -719,9 +720,9 @@ sub add_rakuten_data {
 	# item.csvにデータを追加
 	&add_rakuten_item_data();
 	# select.csvにデータを追加
-#	&add_rakuten_select_data();
+	&add_rakuten_select_data();
 	# item-cat.csvにデータを追加
-#	&add_rakuten_itemcat_data();
+	&add_rakuten_itemcat_data();
 	return 0;
 }
 
@@ -1831,6 +1832,7 @@ HTML_STR_coos
 ## (楽天)スマートフォン用説明文の生成
 ##############################
 sub create_ry_smp_goods_spec {
+	$smp_yahoo_spec ="";
 	my $smp_goods_spec = "";
 	# 商品番号を追加
 	my $str_goods_code = "商品番号";
@@ -1845,20 +1847,6 @@ sub create_ry_smp_goods_spec {
 		my $color_str = "カラー";
 		Encode::from_to( $color_str, 'utf8', 'shiftjis' );
 		$smp_goods_spec .= "$color_str"."$coron"."$global_entry_goods_info[5]"."$paragraph";
-	}
-	# サイズを追加
-	my $size_str = "サイズ";
-	Encode::from_to( $size_str, 'utf8', 'shiftjis' );	
-	if (keys(%global_entry_goods_size_info) != 0) {
-		my $size_goods_str="";
-		foreach my $size_goods_code (sort keys %global_entry_goods_size_info) {
-			my $add_size_str="";
-			if ($size_goods_str ne "") {
-				$add_size_str=" ";	
-			}
-			$size_goods_str .= "$add_size_str"."$global_entry_goods_size_info{$size_goods_code}";
-		}
-		$smp_goods_spec .= "$size_str"."$coron"."$size_goods_str"."$paragraph";
 	}
 	# 商品スペックを追加
 	my @specs;
@@ -1909,6 +1897,8 @@ sub create_ry_smp_goods_spec {
 			$smp_goods_spec .= $paragraph;
 		}
 	}
+	# ヤフー用に情報をストックする
+	$smp_yahoo_spec .= $smp_goods_spec;
 	$smp_goods_spec .="<br \/><br \/>";
 	# 商品コメント1を出力する。
 	my $goods_comment_1 = $global_entry_goods_supp_info[0] || "";
@@ -2156,10 +2146,10 @@ HTML_STR_coos
 				}
 			}
 		}
-		my $before_str_5="\\n"."\)";
-		my $after_str_5="";	
 		$smp_sizechart =~ s/\n\)/\)/g;
 		$smp_goods_spec .=$smp_sizechart;
+		# ヤフー用に情報をストック
+		$smp_yahoo_spec .= $smp_sizechart;
 	}
 my $html_str_end=
 <<"HTML_STR_end";
@@ -2741,7 +2731,9 @@ HTML_STR_6
 ## (Yahoo)explanation情報の生成
 ##############################
 sub create_y_explanation {
-	my $explanation=create_ry_mb_goods_spec();
+	# 楽天スマートフォン用商品説明文でストックした情報を出力
+	$smp_yahoo_spec =~ s/<br \/>/\n/g;
+	my $explanation=$smp_yahoo_spec;
 # <br />タグは使用可能？？
 =pod
 	# <br />, <br />タグを半角スペースに置換
