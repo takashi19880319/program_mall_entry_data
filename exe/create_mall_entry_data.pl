@@ -1899,6 +1899,7 @@ sub create_ry_smp_goods_spec {
 	}
 	# ヤフー用に情報をストックする
 	$smp_yahoo_spec .= $smp_goods_spec;
+	$smp_yahoo_spec =~ s/<br \/>/\n/g;
 	$smp_goods_spec .="<br \/><br \/>";
 	# 商品コメント1を出力する。
 	my $goods_comment_1 = $global_entry_goods_supp_info[0] || "";
@@ -2149,6 +2150,7 @@ HTML_STR_coos
 		$smp_sizechart =~ s/\n\)/\)/g;
 		$smp_goods_spec .=$smp_sizechart;
 		# ヤフー用に情報をストック
+#		$smp_sizechart =~ s/<br \/>\n/<br \/>/g;
 		$smp_yahoo_spec .= $smp_sizechart;
 	}
 my $html_str_end=
@@ -2732,7 +2734,8 @@ HTML_STR_6
 ##############################
 sub create_y_explanation {
 	# 楽天スマートフォン用商品説明文でストックした情報を出力
-	$smp_yahoo_spec =~ s/<br \/>/\n/g;
+	$smp_yahoo_spec =~ s/<br \/><br \/>/\n\n/g;
+	$smp_yahoo_spec =~ s/<br \/>//g;
 	my $explanation=$smp_yahoo_spec;
 # <br />タグは使用可能？？
 =pod
