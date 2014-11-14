@@ -588,9 +588,9 @@ sub add_r_csv_name {
 	# 楽天用のitem.csvに項目名を出力
 	&add_r_itemcsv_name();
 	# 楽天用のselect.csvに項目名を出力
-	&add_r_selectcsv_name();
+#	&add_r_selectcsv_name();
 	# 楽天用のitem-cat.csvに項目名を出力
-	&add_r_itemcatcsv_name();
+#	&add_r_itemcatcsv_name();
 	return 0;
 }
 
@@ -667,7 +667,7 @@ sub add_y_csv_name {
 	# Yahoo用のydata.csvに項目名を出力
 	&add_y_datacsv_name();
 	# Yahoo用のyquantity.csvに項目名を出力
-	&add_y_quantitycsv_name();
+#	&add_y_quantitycsv_name();
 	return 0;
 }
 
@@ -720,9 +720,9 @@ sub add_rakuten_data {
 	# item.csvにデータを追加
 	&add_rakuten_item_data();
 	# select.csvにデータを追加
-	&add_rakuten_select_data();
+#	&add_rakuten_select_data();
 	# item-cat.csvにデータを追加
-	&add_rakuten_itemcat_data();
+#	&add_rakuten_itemcat_data();
 	return 0;
 }
 
@@ -751,16 +751,16 @@ sub add_rakuten_item_data {
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# PC用キャッチコピー
-	$output_item_csv->combine(&create_r_pccatch_copy()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# モバイル用キャッチコピー
-	$output_item_csv->combine(&create_r_mbcatch_copy()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品名
 	$output_item_csv->combine(&create_ry_goods_name()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 販売価格
-	$output_item_csv->combine($global_entry_goods_info[3]) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 表示価格
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
@@ -769,50 +769,50 @@ sub add_rakuten_item_data {
 	my $output_postage_str="";
 	if ($global_entry_goods_info[3] >= 5000) {$output_postage_str="1";}
 	else {$output_postage_str="0";}
-	$output_item_csv->combine($output_postage_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品情報レイアウト
 	$output_item_csv->combine("6") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# PC用商品説明文
-	$output_item_csv->combine(&create_r_pc_goods_spec()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# モバイル用商品説明文
-	$output_item_csv->combine(&create_ry_mb_goods_spec()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# スマートフォン用商品説明文
 	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# PC用販売説明文
-	$output_item_csv->combine(&create_r_pc_goods_detail()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品画像URL
-	$output_item_csv->combine(&create_r_goods_image_url()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 在庫タイプ
 	my $output_stocktype_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stocktype_str="2";}
 	else {$output_stocktype_str="1";}
-	$output_item_csv->combine($output_stocktype_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 在庫数
 	my $output_stocknum_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stocknum_str="";}
 	else {$output_stocknum_str="0";}
-	$output_item_csv->combine($output_stocknum_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 在庫数表示
 	my $output_stockdisplay_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockdisplay_str="";}
 	else {$output_stockdisplay_str="0";}
-	$output_item_csv->combine($output_stockdisplay_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 項目選択肢別在庫用横軸項目名
 	my $output_stockitem_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockitem_str="サイズ";}
 	else {$output_stockitem_str="";}
 	Encode::from_to( $output_stockitem_str, 'utf8', 'shiftjis' );
-	$output_item_csv->combine($output_stockitem_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 項目選択肢別在庫用縦軸項目名
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
@@ -821,7 +821,7 @@ sub add_rakuten_item_data {
 	my $output_stockcode_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockcode_str="";}
 	else {$output_stockcode_str="14";}
-	$output_item_csv->combine($output_stockcode_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 =pod
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 =cut
@@ -833,10 +833,10 @@ sub add_rakuten_item_data {
 	$output_item_csv->combine("1") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# ポイント変倍率
-	$output_item_csv->combine(&create_r_point()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# ポイント変倍率適用期間
-	$output_item_csv->combine(&create_r_point_term()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	#最後に改行を追加
 	print $output_item_file_disc $output_item_csv->string(), "\n";
 	return 0;
@@ -985,7 +985,7 @@ sub add_ydata_data {
 	$output_ydata_csv->combine($global_entry_goods_info[0]) or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# sub-code
-	$output_ydata_csv->combine(&create_y_subcode()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# original-price
 	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
@@ -997,13 +997,13 @@ sub add_ydata_data {
 	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# options
-	$output_ydata_csv->combine(&create_y_options()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# headline
-	$output_ydata_csv->combine(&create_y_headline()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# caption
-	$output_ydata_csv->combine(&create_y_caption()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# abstract
 	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
@@ -1012,16 +1012,16 @@ sub add_ydata_data {
 	$output_ydata_csv->combine(&create_y_explanation()) or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# additional1
-	$output_ydata_csv->combine(&create_y_additional1()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# additional2
-	$output_ydata_csv->combine(&create_y_additional2()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# additional3
-	$output_ydata_csv->combine(&create_y_additional3()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# relevant-links
-	$output_ydata_csv->combine(&create_y_relevant_links()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# ship-weight
 	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
@@ -1033,13 +1033,13 @@ sub add_ydata_data {
 	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# point-code
-	$output_ydata_csv->combine(&create_r_point()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# meta-key
-	$output_ydata_csv->combine(&create_ry_goods_name()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# meta-desc
-	$output_ydata_csv->combine(&create_ry_goods_name()) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# template
 	$output_ydata_csv->combine("IT02") or die $output_ydata_csv->error_diag();
@@ -1078,7 +1078,7 @@ sub add_ydata_data {
 	my $output_delivery_str="";
 	if ($global_entry_goods_info[3] >= 5000) {$output_delivery_str="1";}
 	else {$output_delivery_str="0";}
-	$output_ydata_csv->combine($output_delivery_str) or die $output_ydata_csv->error_diag();
+	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
 	print $output_ydata_file_disc $output_ydata_csv->string(), ",";
 	# product-category(T.B.D 手動で入力)
 	$output_ydata_csv->combine("") or die $output_ydata_csv->error_diag();
