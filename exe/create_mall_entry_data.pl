@@ -783,6 +783,7 @@ sub add_rakuten_item_data {
 	# スマートフォン用商品説明文
 	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
+	exit;
 	# PC用販売説明文
 	$output_item_csv->combine(&create_r_pc_goods_detail()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
@@ -1827,26 +1828,77 @@ HTML_STR_coos
 	}
 	return $mb_goods_spec;
 }
-
 ##############################
 ## (楽天)スマートフォン用説明文の生成
 ##############################
 sub create_ry_smp_goods_spec {
 	$smp_yahoo_spec ="";
 	my $smp_goods_spec = "";
+	# tableのタグを追加
+	$smp_goods_spec .= "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n<tr><td>\n";
+	# 商品コメント2を取得
+	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
+	# サイズチャートがgoods_suppに入力されている場合
+	if ($goods_info_smp ne "") {
+		# <span>タグの削除
+		my $before_rep_smp_1="<span>";
+		my $after_rep_smp_1="";
+		$goods_info_smp =~ s/$before_rep_smp_1/$after_rep_smp_1/g;
+		# </span>タグの削除
+		my $before_rep_smp_2="</span>";
+		my $after_rep_smp_2="";
+		$goods_info_smp =~ s/$before_rep_smp_2/$after_rep_smp_2/g;
+		# スマホ用サイズチャートのヘッダー
+		my $before_rep_smp_3="<table class=\"infoTable\"><tr><td><table>";
+		my $after_rep_smp_3 = "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"1\" border=\"0\">" || "";
+		$goods_info_smp =~ s/$before_rep_smp_3/$after_rep_smp_3/g;
+		# スマホ用サイズチャートの項目先頭
+		my $before_rep_smp_4="<tr><th class=\"col01\">";
+		my $after_rep_smp_4 = "<tr bgcolor=\"#cfcfcf\" align=\"center\"><th>";
+		$goods_info_smp =~ s/$before_rep_smp_4/$after_rep_smp_4/g;
+		# スマホ用サイズチャートの項目
+		my $before_rep_smp_5="<th>";
+		my $after_rep_smp_5 = "<th><font size=\"1\">";
+		$goods_info_smp =~ s/$before_rep_smp_5/$after_rep_smp_5/g;
+		# スマホ用サイズチャートの項目</>の変更
+		my $before_rep_smp_6="</th>";
+		my $after_rep_smp_6 = "</font></th>";
+		$goods_info_smp =~ s/$before_rep_smp_6/$after_rep_smp_6/g;
+		# スマホ用サイズチャートの内容
+		my $before_rep_smp_7="<tr><td class=\"col01\">";
+		my $after_rep_smp_7 = "<tr bgcolor=\"#f0f0f0\" height=\"30\" align=\"center\"><td>";
+		$goods_info_smp =~ s/$before_rep_smp_7/$after_rep_smp_7/g;
+		# スマホ用サイズチャートの内容
+		my $before_rep_smp_8="</table></td></tr></table>";
+		my $after_rep_smp_8 = "</table>";
+		$goods_info_smp =~ s/$before_rep_smp_8/$after_rep_smp_8/g;
+		#タグを追加
+		$smp_goods_spec .= $goods_info_smp."\n"."</td></tr>"."\n";
+	}
+my $html_str_1=
+<<"HTML_STR_1";
+<tr><td height="7"></td></tr>
+<tr><td>
+<hr size="1" color="#dfdfdf">
+</td></tr>
+<tr><td height="2"></td></tr>
+<tr><td>
+<table>
+HTML_STR_1
+	#HTMLを追加
+	$smp_goods_spec .= $html_str_1;
 	# 商品番号を追加
 	my $str_goods_code = "商品番号";
 	Encode::from_to( $str_goods_code, 'utf8', 'shiftjis' );
 	my $coron="：";
 	Encode::from_to( $coron, 'utf8', 'shiftjis' );
-	my $paragraph="<br />";
 	my $entry_code =$global_entry_goods_info[0];
-	$smp_goods_spec .= "$str_goods_code"."$coron"."$entry_code"."$paragraph";
+	$smp_goods_spec .= "<tr valign=\"top\">\n"."<td>"."$str_goods_code"."</td>\n"."<td>"."$coron"."</td>"."<td>"."$entry_code"."</td>\n"."</tr>"."\n";
 	# カラーを追加
 	if ($global_entry_goods_info[5] ne "") {
 		my $color_str = "カラー";
 		Encode::from_to( $color_str, 'utf8', 'shiftjis' );
-		$smp_goods_spec .= "$color_str"."$coron"."$global_entry_goods_info[5]"."$paragraph";
+		$smp_goods_spec .= "<tr valign=\"top\">\n"."<td>"."$color_str"."</td>\n"."<td>"."$coron"."</td>"."<td>"."$global_entry_goods_info[5]"."</td>\n"."</tr>"."\n";
 	}
 	# 商品スペックを追加
 	my @specs;
@@ -1891,16 +1943,24 @@ sub create_ry_smp_goods_spec {
 		my $before_rep_str_spec2="<br \/>";
 		my $after_rep_str_spec2=" ";
 		$spec_info =~ s/$before_rep_str_spec2/$after_rep_str_spec2/g;
-		$smp_goods_spec .= "$specs[$i]"."$coron"."$spec_info";
-		# 最後以外は／で区切る
-		if (($i+2) < $specs_count) {
-			$smp_goods_spec .= $paragraph;
-		}
+		$smp_goods_spec .= "<tr valign=\"top\">\n"."<td>"."$specs[$i]"."</td>\n"."<td>"."$coron"."</td>"."<td>"."$spec_info"."</td>\n"."</tr>"."\n";
 	}
+	$smp_goods_spec .="</table>";
+my $html_str_2=
+<<"HTML_STR_2";
+</td></tr>
+<tr><td height="7"></td></tr>
+<tr><td>
+<hr size="1" color="#dfdfdf">
+</td></tr>
+<tr><td height="4"></td></tr>
+<tr><td>
+HTML_STR_2
+	# HTMLの追加
+	$smp_goods_spec .= $html_str_2;
 	# ヤフー用に情報をストックする
 	$smp_yahoo_spec .= $smp_goods_spec;
 	$smp_yahoo_spec =~ s/<br \/>/\n/g;
-	$smp_goods_spec .="<br \/><br \/>";
 	# 商品コメント1を出力する。
 	my $goods_comment_1 = $global_entry_goods_supp_info[0] || "";
 	my $before_rep_str0="<ul class=\"link1\">.*<\/ul>";
@@ -1970,189 +2030,6 @@ HTML_STR_coos
 		$smp_goods_spec .= "<br /><br />";
 	}
 	#　※※※$smp_goods_specにすべての項目を格納し出力する。※※※
-	# 商品コメント2を取得
-	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
-	my $before_rep_str8="\\n\\n";
-	my $after_rep_str8="\\n";
-	$goods_info_smp =~ s/$before_rep_str8/$after_rep_str8/g;
-	# <span>タグの削除
-	my $before_rep_str8_1="<span>";
-	my $after_rep_str8_1="";
-	$goods_info_smp =~ s/$before_rep_str8_1/$after_rep_str8_1/g;
-	# </span>タグの削除
-	my $before_rep_str8_2="</span>";
-	my $after_rep_str8_2="";
-	$goods_info_smp =~ s/$before_rep_str8_2/$after_rep_str8_2/g;
-	# 1行ごとにサイズ要素のみの配列を作る
-	my $before_str9="<table class=\"infoTable\"><tr><td><table>";
-	my $after_str9="";
-	$goods_info_smp =~ s/$before_str9/$after_str9/g;
-	# 1行ごとにサイズ要素のみの配列を作る
-	my $before_str10="<\/table><\/td><\/tr><\/table>";
-	my $after_str10="";	
-	$goods_info_smp =~ s/$before_str10/$after_str10/g;
-	# サイズチャートがgoods_suppに入力されている場合
-	if ($goods_info_smp ne "") {
-		# スマホ用サイズチャートのヘッダー
-		my $smp_sizechart_header = "<br /><br />【サイズチャート】\n" || "";
-		Encode::from_to( $smp_sizechart_header, 'utf8', 'shiftjis' );
-		# GLOBERのサイズチャートを改行で分割して配列にする
-		my @goods_info_str_list_tr = split(/<tr>/, $goods_info_smp);
-		my @goods_info_str_list_sub = split(/<\/th>/, $goods_info_str_list_tr[1]);
-		# GLOBERのサイズチャートの行数を格納する
-		my $goods_info_str_list_count=@goods_info_str_list_tr;
-		# スマホサイズチャートを宣言
-		my $smp_sizechart ="$smp_sizechart_header";
-		#GLOBERのサイズチャートを<tr>の行ごとに読み込み、1行ずつ処理して変数に追加していく。
-		my $i=2;
-		# 1行<tr>にあたりにおけるサイズの項目数
-		my $size_i=0;
-		while ($i <= $goods_info_str_list_count-1){
-			# 1行ごとにサイズ要素のみの配列を作る
-			my $before_str1="<\/tr>";
-			my $after_str1="";	
-			$goods_info_str_list_tr[$i] =~ s/$before_str1/$after_str1/g;
-			my @goods_info_str_list_size = split(/<\/td><td>/, $goods_info_str_list_tr[$i]);
-			# サイズの要素数を格納する
-			my $goods_info_str_list_size_count=@goods_info_str_list_size;
-			# サイズ要素数が1つのとき
-			if ($goods_info_str_list_size_count ==2){
-				if ($size_i==0){
-					my $before_str_1="<td class=\'col01\'>";
-					my $before_str_2="<td class=\"col01\">";
-					my $after_str="<br />";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_1/$after_str/g;
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str/g;
-					$goods_info_str_list_size[$size_i] = "$goods_info_str_list_size[$size_i]";
-					$smp_sizechart .= $goods_info_str_list_size[$size_i];
-					$size_i++;
-					next;
-				}
-				else {
-					# サイズ項目の余計な文字列を削除
-					my $before_str="<th>";
-					my $after_str="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str/$after_str/g;
-					# サイズ項目の余計な文字列を削除
-					my $before_str_1="<\/tr>";
-					my $after_str_1="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_2="<\/td><\/tr>";
-					my $after_str_2="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_3="<\/td>";
-					my $after_str_3="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_4="<\/tr>";
-					my $after_str_4="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
-					chomp($goods_info_str_list_size[$size_i]);
-					$smp_sizechart .= "("."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
-					$size_i=0;
-					$i++;
-				}
-			}
-			# サイズ要素数が2以上のとき
-			else{
-				# サイズ要素のみの配列を1つずつサイズの要素とサイズ項目を組み合わせてスマホ用サイズチャートを作る
-				# 1番目はサイズで余分な文字列を省き、ヘッダーを追加してサイズチャートに格納する
-				if ($size_i==0){
-					my $before_str_1="<td class=\'col01\'>";
-					my $before_str_2="<td class=\"col01\">";
-					my $after_str="<br />";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_1/$after_str/g;
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str/g;
-					$goods_info_str_list_size[$size_i] = "$goods_info_str_list_size[$size_i]";
-					$smp_sizechart .= $goods_info_str_list_size[$size_i];
-					$size_i++;
-					next;
-				}
-				# 2番目はサイズ要素のスタートなので、（をつけて1番目のサイズ項目を組み合わせてサイズチャートに格納する
-				elsif($size_i==1 ){
-					# サイズ項目の余計な文字列を削除
-					my $before_str="<th>";
-					my $after_str="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str/$after_str/g;
-					# サイズ項目の余計な文字列を削除
-					my $before_str_1="<\/tr>";
-					my $after_str_1="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_2="<\/td><\/tr>";
-					my $after_str_2="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_3="<\/td>";
-					my $after_str_3="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_4="<\/tr>";
-					my $after_str_4="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
-					chomp($goods_info_str_list_size[$size_i]);
-					$smp_sizechart .= "("."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]";
-					$size_i++;
-					next;
-				}
-				elsif($size_i<$goods_info_str_list_size_count-1){
-					# サイズ項目の余計な文字列を削除
-					my $before_str_0="<th>";
-					my $after_str_0="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str_0/$after_str_0/g;
-					# サイズ項目の余計な文字列を削除
-					my $before_str_1="<\/tr>";
-					my $after_str_1="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_2="<\/tr>";
-					my $after_str_2="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_3="<\/td><\/tr>";
-					my $after_str_3="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
-					chomp($goods_info_str_list_size[$size_i]);
-					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]";
-					$size_i++;
-					next;
-				}
-				else{
-					# サイズ項目の余計な文字列を削除
-					my $before_str_0="<th>";
-					my $after_str_0="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str_0/$after_str_0/g;
-					# サイズ項目の余計な文字列を削除
-					my $before_str_1="<\tr>";
-					my $after_str_1="";	
-					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_2="<\/td><\/tr>";
-					my $after_str_2="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_3="<\/tr>";
-					my $after_str_3="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
-					# サイズ要素の余計な文字列を削除
-					my $before_str_4="<\/td>";
-					my $after_str_4="";	
-					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
-					chomp($goods_info_str_list_size[$size_i]);
-					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
-					$size_i=0;
-					$i++;
-				}
-			}
-		}
-		$smp_sizechart =~ s/\n\)/\)/g;
-		$smp_goods_spec .=$smp_sizechart;
-		# ヤフー用に情報をストック
-#		$smp_sizechart =~ s/<br \/>\n/<br \/>/g;
-		$smp_yahoo_spec .= $smp_sizechart;
-	}
 my $html_str_end=
 <<"HTML_STR_end";
 <br /><br />・ディスプレイにより、実物と色、イメージが異なる事がございます。あらかじめご了承ください。
@@ -2160,6 +2037,7 @@ my $html_str_end=
 HTML_STR_end
 	Encode::from_to( $html_str_end, 'utf8', 'shiftjis' );
 	$smp_goods_spec .=$html_str_end;
+	$smp_goods_spec .= "</td><td width=\"5\"></td></tr></table>";
 	# 5120byte制限チェック
 	my $len = length $smp_goods_spec;
 	if ($len > 5120) {
