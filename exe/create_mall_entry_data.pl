@@ -2737,16 +2737,6 @@ sub create_y_explanation {
 	$smp_yahoo_spec =~ s/<br \/><br \/>/\n\n/g;
 	$smp_yahoo_spec =~ s/<br \/>//g;
 	my $explanation=$smp_yahoo_spec;
-# <br />タグは使用可能？？
-=pod
-	# <br />, <br />タグを半角スペースに置換
-	my $before_rep_str1="<br />";
-	my $before_rep_str2="<br />";
-	my $after_rep_str=" ";
-	$explanation =~ s/$before_rep_str1/$after_rep_str/g;
-	$explanation =~ s/$before_rep_str2/$after_rep_str/g;
-	# T.B.D <a>タグの削除はどうする？
-=cut
 	return $explanation;
 }
 
