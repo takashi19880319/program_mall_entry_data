@@ -417,7 +417,7 @@ our @globel_spec_sort=&get_spec_sort_from_xml();
 # 楽天用の出力CSVファイルに項目名を出力
 &add_r_csv_name();
 # Yahoo!用の出力CSVファイルに項目名を出力
-&add_y_csv_name();
+#&add_y_csv_name();
 # 商品データの作成
 while(my $image_num_line = $input_image_num_csv->getline($input_image_num_file_disc)){
 	##### goods.csvファイルの読み出し
@@ -541,11 +541,10 @@ while(my $image_num_line = $input_image_num_csv->getline($input_image_num_file_d
 			$genre_goods_count++;
 		}
 	}
-
 	# 楽天用データを追加
 	&add_rakuten_data();
 	# Yahoo!用データを追加
-	&add_yahoo_data();
+#	&add_yahoo_data();
 }
 
 # 処理終了
@@ -588,9 +587,9 @@ sub add_r_csv_name {
 	# 楽天用のitem.csvに項目名を出力
 	&add_r_itemcsv_name();
 	# 楽天用のselect.csvに項目名を出力
-	&add_r_selectcsv_name();
+#	&add_r_selectcsv_name();
 	# 楽天用のitem-cat.csvに項目名を出力
-	&add_r_itemcatcsv_name();
+#	&add_r_itemcatcsv_name();
 	return 0;
 }
 
@@ -665,9 +664,9 @@ sub add_r_itemcatcsv_name {
 ##############################
 sub add_y_csv_name {
 	# Yahoo用のydata.csvに項目名を出力
-	&add_y_datacsv_name();
+#	&add_y_datacsv_name();
 	# Yahoo用のyquantity.csvに項目名を出力
-	&add_y_quantitycsv_name();
+#	&add_y_quantitycsv_name();
 	return 0;
 }
 
@@ -720,9 +719,9 @@ sub add_rakuten_data {
 	# item.csvにデータを追加
 	&add_rakuten_item_data();
 	# select.csvにデータを追加
-	&add_rakuten_select_data();
+#	&add_rakuten_select_data();
 	# item-cat.csvにデータを追加
-	&add_rakuten_itemcat_data();
+#	&add_rakuten_itemcat_data();
 	return 0;
 }
 
@@ -732,7 +731,7 @@ sub add_rakuten_data {
 sub add_rakuten_item_data {
 	# 各値をCSVファイルに書き出す
 	# コントロールカラム
-	$output_item_csv->combine("n") or die $output_item_csv->error_diag();
+	$output_item_csv->combine("u") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品管理番号
 	$output_item_csv->combine($global_entry_goods_info[0]) or die $output_item_csv->error_diag();
@@ -751,16 +750,16 @@ sub add_rakuten_item_data {
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# PC用キャッチコピー
-	$output_item_csv->combine(&create_r_pccatch_copy()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# モバイル用キャッチコピー
-	$output_item_csv->combine(&create_r_mbcatch_copy()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品名
 	$output_item_csv->combine(&create_ry_goods_name()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 販売価格
-	$output_item_csv->combine($global_entry_goods_info[3]) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 表示価格
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
@@ -772,23 +771,23 @@ sub add_rakuten_item_data {
 	$output_item_csv->combine($output_postage_str) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品情報レイアウト
-	$output_item_csv->combine("6") or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# PC用商品説明文
-	$output_item_csv->combine(&create_r_pc_goods_spec()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# モバイル用商品説明文
-	$output_item_csv->combine(&create_ry_mb_goods_spec()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# スマートフォン用商品説明文
 	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	exit;
 	# PC用販売説明文
-	$output_item_csv->combine(&create_r_pc_goods_detail()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 商品画像URL
-	$output_item_csv->combine(&create_r_goods_image_url()) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 在庫タイプ
 	my $output_stocktype_str="";
@@ -800,20 +799,20 @@ sub add_rakuten_item_data {
 	my $output_stocknum_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stocknum_str="";}
 	else {$output_stocknum_str="0";}
-	$output_item_csv->combine($output_stocknum_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 在庫数表示
 	my $output_stockdisplay_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockdisplay_str="";}
 	else {$output_stockdisplay_str="0";}
-	$output_item_csv->combine($output_stockdisplay_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 項目選択肢別在庫用横軸項目名
 	my $output_stockitem_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockitem_str="サイズ";}
 	else {$output_stockitem_str="";}
 	Encode::from_to( $output_stockitem_str, 'utf8', 'shiftjis' );
-	$output_item_csv->combine($output_stockitem_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
 	# 項目選択肢別在庫用縦軸項目名
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
@@ -822,7 +821,7 @@ sub add_rakuten_item_data {
 	my $output_stockcode_str="";
 	if (length($global_entry_goods_info[0]) == 7) {$output_stockcode_str="";}
 	else {$output_stockcode_str="14";}
-	$output_item_csv->combine($output_stockcode_str) or die $output_item_csv->error_diag();
+	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 =pod
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 =cut
@@ -964,9 +963,9 @@ sub add_rakuten_itemcat_data {
 ##############################
 sub add_yahoo_data {
 	# Yahoo用のydata.csvにデータを追加
-	&add_ydata_data();
+#	&add_ydata_data();
 	# Yahoo用のyquantity.csvにデータを追加
-	&add_yquantity_data();
+#	&add_yquantity_data();
 	
 	return 0;
 }
@@ -1341,6 +1340,14 @@ HTML_STR_1
 	my $before_rep_str7="<br /><br />.*alt=\"johnstons\">";
 	Encode::from_to( $before_rep_str7, 'utf8', 'shiftjis' );
 	$goods_comment_1 =~ s/$before_rep_str7/$after_rep_str7/g;
+	# 返品交換のリンク置換
+	my $after_rep_str8="http://www.rakuten.ne.jp/gold/hff/howto4.html";
+	my $before_rep_str8="http://glober.jp/info/exchange.aspx";
+	$goods_comment_1 =~ s/$before_rep_str8/$after_rep_str8/g;	
+	# クルチアーニの画像削除
+	my $after_rep_str9 ="";
+	my $before_rep_str9 = "<p><a href=\"http://blog.glober.jp/?cat=72\"><img.*</p><br />";
+	$goods_comment_1 =~ s/$before_rep_str9/$after_rep_str9/g;
 	# 商品コメント1を追加
 	$spec_str .= "$goods_comment_1";
 	# ブランド辞典を追加
@@ -1789,35 +1796,6 @@ sub create_ry_mb_goods_spec {
 			}
 		}	
 	}
-=pod
-my $html_str_whc=
-<<"HTML_STR_whc";
-キズのように見える白い線や表面の白い粉は、多くが表面に表れた蝋です。蝋は柔らかい布で拭いたり、ブラッシングすると取れます。天然の革製品ですので、多少のシワやキズ、色ムラなどがある場合がございます。
-HTML_STR_whc
-        Encode::from_to( $html_str_whc, 'utf8', 'shiftjis' );
-my $html_str_coos=
-<<"HTML_STR_coos";
-※製造工程上、小さな傷、シワ、色ムラ（色の濃淡）、大きさやステッチなど仕上がりの不均一感がほとんどの商品に見られます。不良品ではございません。
-HTML_STR_coos
-        Encode::from_to( $html_str_coos, 'utf8', 'shiftjis' );
-
-	my $whc_str="ホワイトハウスコックス/Whitehouse Cox";
-        Encode::from_to( $whc_str, 'utf8', 'shiftjis' );
-	my $coos_str="コース/Koos";
-        Encode::from_to( $coos_str, 'utf8', 'shiftjis' );
-	
-	#WHC, COOSの場合は文言追加
-	if (&get_info_from_xml("brand_name") eq $whc_str){
-		$mb_goods_spec .= "<br />";
-		$mb_goods_spec .= "$html_str_whc";
-		$mb_goods_spec .= "<br /><br />";
-	}
-	elsif (&get_info_from_xml("brand_name") eq $coos_str) {
-		$mb_goods_spec .= "<br />";
-		$mb_goods_spec .= "$html_str_coos";
-		$mb_goods_spec .= "<br /><br />";
-	}
-=cut
 	# 1024byte制限チェック
 	my $len = length $mb_goods_spec;
 	if ($len > 1024) {
@@ -1835,7 +1813,7 @@ sub create_ry_smp_goods_spec {
 	$smp_yahoo_spec ="";
 	my $smp_goods_spec = "";
 	# tableのタグを追加
-	$smp_goods_spec .= "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n<tr><td>\n";
+	$smp_goods_spec .= "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">";
 	# 商品コメント2を取得
 	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
 	# サイズチャートがgoods_suppに入力されている場合
@@ -1848,6 +1826,7 @@ sub create_ry_smp_goods_spec {
 		my $before_rep_smp_2="</span>";
 		my $after_rep_smp_2="";
 		$goods_info_smp =~ s/$before_rep_smp_2/$after_rep_smp_2/g;
+		$smp_goods_spec .= "<tr><td>\n";
 		# スマホ用サイズチャートのヘッダー
 		my $before_rep_smp_3="<table class=\"infoTable\"><tr><td><table>";
 		my $after_rep_smp_3 = "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"1\" border=\"0\">" || "";
@@ -1937,12 +1916,6 @@ HTML_STR_1
 	my $specs_count = @specs;
 	for (my $i=0; $i < $specs_count; $i+=2) {
 		my $spec_info = $specs[$i+1];
-		my $before_rep_str_spec1="<br \/>";
-		my $after_rep_str_spec1=" ";
-		$spec_info =~ s/$before_rep_str_spec1/$after_rep_str_spec1/g;
-		my $before_rep_str_spec2="<br \/>";
-		my $after_rep_str_spec2=" ";
-		$spec_info =~ s/$before_rep_str_spec2/$after_rep_str_spec2/g;
 		$smp_goods_spec .= "<tr valign=\"top\">\n"."<td>"."$specs[$i]"."</td>\n"."<td>"."$coron"."</td>"."<td>"."$spec_info"."</td>\n"."</tr>"."\n";
 	}
 	$smp_goods_spec .="</table>";
@@ -1994,6 +1967,18 @@ HTML_STR_2
 	my $after_rep_str7="";
 	my $before_rep_str7="<br /><br />.*alt=\"johnstons\">";
 	$goods_comment_1 =~ s/$before_rep_str7/$after_rep_str7/g;
+	# 返品交換のリンク置換
+	my $after_rep_str8="http://www.rakuten.ne.jp/gold/hff/howto4.html";
+	my $before_rep_str8="http://glober.jp/info/exchange.aspx";
+	$goods_comment_1 =~ s/$before_rep_str8/$after_rep_str8/g;
+	# クルチアーニの画像削除
+	my $after_rep_str9 ="";
+	my $before_rep_str9 = "<p><a href=\"http://blog.glober.jp/?cat=72\"><img.*</p><br />";
+	$goods_comment_1 =~ s/$before_rep_str9/$after_rep_str9/g;
+	# クルチアーニのリンク削除
+	my $after_rep_str9_2 ="http://item.rakuten.co.jp/hff/146701111/";
+	my $before_rep_str9_2 = "http://glober.jp/g/g14670/";
+	$goods_comment_1 =~ s/$before_rep_str9_2/$after_rep_str9_2/g;
 	# 商品コメント1を追加
 	$smp_goods_spec .= $goods_comment_1;
 	# 5000円未満の商品は送料無料の注意書きを入れる。
@@ -2022,12 +2007,10 @@ HTML_STR_coos
 	if (&get_info_from_xml("brand_name") eq $whc_str){
 		$smp_goods_spec .= "<br />";
 		$smp_goods_spec .= "$html_str_whc";
-		$smp_goods_spec .= "<br /><br />";
 	}
 	elsif (&get_info_from_xml("brand_name") eq $coos_str) {
 		$smp_goods_spec .= "<br />";
 		$smp_goods_spec .= "$html_str_coos";
-		$smp_goods_spec .= "<br /><br />";
 	}
 	#　※※※$smp_goods_specにすべての項目を格納し出力する。※※※
 my $html_str_end=
@@ -2046,6 +2029,9 @@ HTML_STR_end
 		Encode::from_to( $warn, 'utf8', 'shiftjis' );
 		&output_log("$warn\n");
 	}
+	my $after_rep_str10="<br /><br />";
+	my $before_rep_str10="<br /><br /><br /><br />";
+	$smp_goods_spec =~ s/$before_rep_str10/$after_rep_str10/g;
 	return $smp_goods_spec;
 }
 
@@ -2428,6 +2414,18 @@ HTML_STR_1
 	my $before_rep_str6="<br /><br />[正規販売店証明書].*alt=\"johnstons\">";
 	Encode::from_to( $before_rep_str6, 'utf8', 'shiftjis' );
 	$goods_info0 =~ s/$before_rep_str6/$after_rep_str6/g;
+	# 返品交換のリンク置換
+	my $after_rep_str8="http://store.shopping.yahoo.co.jp/hff/howto4.html";
+	my $before_rep_str8="http://glober.jp/info/exchange.aspx";
+	$goods_info0 =~ s/$before_rep_str8/$after_rep_str8/g;
+	# クルチアーニの画像削除
+	my $after_rep_str9 ="";
+	my $before_rep_str9 = "<p><a href=\"http://blog.glober.jp/?cat=72\"><img.*</p><br />";
+	$goods_info0 =~ s/$before_rep_str9/$after_rep_str9/g;
+	# クルチアーニのリンク削除
+	my $after_rep_str9_2 ="http://store.shopping.yahoo.co.jp/hff/146701111.html";
+	my $before_rep_str9_2 = "http://glober.jp/g/g14670/";
+	$goods_info0 =~ s/$before_rep_str9_2/$after_rep_str9_2/g;
 	# 商品説明を格納
 	$spec_str="$spec_str$goods_info0";
 	# 商品スペックは一つ目の商品のものを使用
