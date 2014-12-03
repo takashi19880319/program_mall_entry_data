@@ -402,7 +402,6 @@ our @global_entry_goods_supp_info;
 our @global_entry_goods_spec_info;
 our %global_entry_genre_goods_info;
 our $global_category_priority=1;
-my $smp_yahoo_spec ="";
 
 ## Yahoo!のydata.csv:relevant_linksデータ用にデータを保持
 our @global_item_list=<$input_image_num_file_disc>;
@@ -783,7 +782,6 @@ sub add_rakuten_item_data {
 	# スマートフォン用商品説明文
 	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
-	exit;
 	# PC用販売説明文
 	$output_item_csv->combine(&create_r_pc_goods_detail()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
@@ -1341,6 +1339,14 @@ HTML_STR_1
 	my $before_rep_str7="<br /><br />.*alt=\"johnstons\">";
 	Encode::from_to( $before_rep_str7, 'utf8', 'shiftjis' );
 	$goods_comment_1 =~ s/$before_rep_str7/$after_rep_str7/g;
+	# 返品交換のリンク置換
+	my $after_rep_str8="http://www.rakuten.ne.jp/gold/hff/howto4.html";
+	my $before_rep_str8="http://glober.jp/info/exchange.aspx";
+	$goods_comment_1 =~ s/$before_rep_str8/$after_rep_str8/g;	
+	# クルチアーニの画像削除
+	my $after_rep_str9 ="";
+	my $before_rep_str9 = "<p><a href=\"http://blog.glober.jp/?cat=72\"><img.*</p><br />";
+	$goods_comment_1 =~ s/$before_rep_str9/$after_rep_str9/g;
 	# 商品コメント1を追加
 	$spec_str .= "$goods_comment_1";
 	# ブランド辞典を追加
@@ -1597,7 +1603,6 @@ HTML_STR_8
 
 	return $spec_str;
 }
-
 ##############################
 ## (楽天)モバイル用説明文の生成
 ##############################
@@ -1832,10 +1837,9 @@ HTML_STR_coos
 ## (楽天)スマートフォン用説明文の生成
 ##############################
 sub create_ry_smp_goods_spec {
-	$smp_yahoo_spec ="";
 	my $smp_goods_spec = "";
 	# tableのタグを追加
-	$smp_goods_spec .= "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n<tr><td>\n";
+	$smp_goods_spec .= "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">";
 	# 商品コメント2を取得
 	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
 	# サイズチャートがgoods_suppに入力されている場合
@@ -1848,6 +1852,7 @@ sub create_ry_smp_goods_spec {
 		my $before_rep_smp_2="</span>";
 		my $after_rep_smp_2="";
 		$goods_info_smp =~ s/$before_rep_smp_2/$after_rep_smp_2/g;
+		$smp_goods_spec .= "<tr><td>\n";
 		# スマホ用サイズチャートのヘッダー
 		my $before_rep_smp_3="<table class=\"infoTable\"><tr><td><table>";
 		my $after_rep_smp_3 = "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"1\" border=\"0\">" || "";
@@ -1937,12 +1942,6 @@ HTML_STR_1
 	my $specs_count = @specs;
 	for (my $i=0; $i < $specs_count; $i+=2) {
 		my $spec_info = $specs[$i+1];
-		my $before_rep_str_spec1="<br \/>";
-		my $after_rep_str_spec1=" ";
-		$spec_info =~ s/$before_rep_str_spec1/$after_rep_str_spec1/g;
-		my $before_rep_str_spec2="<br \/>";
-		my $after_rep_str_spec2=" ";
-		$spec_info =~ s/$before_rep_str_spec2/$after_rep_str_spec2/g;
 		$smp_goods_spec .= "<tr valign=\"top\">\n"."<td>"."$specs[$i]"."</td>\n"."<td>"."$coron"."</td>"."<td>"."$spec_info"."</td>\n"."</tr>"."\n";
 	}
 	$smp_goods_spec .="</table>";
@@ -1958,9 +1957,6 @@ my $html_str_2=
 HTML_STR_2
 	# HTMLの追加
 	$smp_goods_spec .= $html_str_2;
-	# ヤフー用に情報をストックする
-	$smp_yahoo_spec .= $smp_goods_spec;
-	$smp_yahoo_spec =~ s/<br \/>/\n/g;
 	# 商品コメント1を出力する。
 	my $goods_comment_1 = $global_entry_goods_supp_info[0] || "";
 	my $before_rep_str0="<ul class=\"link1\">.*<\/ul>";
@@ -1994,6 +1990,18 @@ HTML_STR_2
 	my $after_rep_str7="";
 	my $before_rep_str7="<br /><br />.*alt=\"johnstons\">";
 	$goods_comment_1 =~ s/$before_rep_str7/$after_rep_str7/g;
+	# 返品交換のリンク置換
+	my $after_rep_str8="http://www.rakuten.ne.jp/gold/hff/howto4.html";
+	my $before_rep_str8="http://glober.jp/info/exchange.aspx";
+	$goods_comment_1 =~ s/$before_rep_str8/$after_rep_str8/g;
+	# クルチアーニの画像削除
+	my $after_rep_str9 ="";
+	my $before_rep_str9 = "<p><a href=\"http://blog.glober.jp/?cat=72\"><img.*</p><br />";
+	$goods_comment_1 =~ s/$before_rep_str9/$after_rep_str9/g;
+	# クルチアーニのリンク削除
+	my $after_rep_str9_2 ="http://item.rakuten.co.jp/hff/146701111/";
+	my $before_rep_str9_2 = "http://glober.jp/g/g14670/";
+	$goods_comment_1 =~ s/$before_rep_str9_2/$after_rep_str9_2/g;
 	# 商品コメント1を追加
 	$smp_goods_spec .= $goods_comment_1;
 	# 5000円未満の商品は送料無料の注意書きを入れる。
@@ -2022,12 +2030,10 @@ HTML_STR_coos
 	if (&get_info_from_xml("brand_name") eq $whc_str){
 		$smp_goods_spec .= "<br />";
 		$smp_goods_spec .= "$html_str_whc";
-		$smp_goods_spec .= "<br /><br />";
 	}
 	elsif (&get_info_from_xml("brand_name") eq $coos_str) {
 		$smp_goods_spec .= "<br />";
 		$smp_goods_spec .= "$html_str_coos";
-		$smp_goods_spec .= "<br /><br />";
 	}
 	#　※※※$smp_goods_specにすべての項目を格納し出力する。※※※
 my $html_str_end=
@@ -2046,9 +2052,11 @@ HTML_STR_end
 		Encode::from_to( $warn, 'utf8', 'shiftjis' );
 		&output_log("$warn\n");
 	}
+	my $after_rep_str10="<br /><br />";
+	my $before_rep_str10="<br /><br /><br /><br />";
+	$smp_goods_spec =~ s/$before_rep_str10/$after_rep_str10/g;
 	return $smp_goods_spec;
 }
-
 ##############################
 ## (楽天)PC用販売説明文の生成
 ##############################
@@ -2385,7 +2393,6 @@ sub create_y_headline {
 ## (Yahoo)商品説明(caption)の生成
 ##############################
 sub create_y_caption {
-
 	# 商品説明文格納用
 	my $spec_str="";
 
@@ -2428,6 +2435,18 @@ HTML_STR_1
 	my $before_rep_str6="<br /><br />[正規販売店証明書].*alt=\"johnstons\">";
 	Encode::from_to( $before_rep_str6, 'utf8', 'shiftjis' );
 	$goods_info0 =~ s/$before_rep_str6/$after_rep_str6/g;
+	# 返品交換のリンク置換
+	my $after_rep_str8="http://store.shopping.yahoo.co.jp/hff/howto4.html";
+	my $before_rep_str8="http://glober.jp/info/exchange.aspx";
+	$goods_info0 =~ s/$before_rep_str8/$after_rep_str8/g;
+	# クルチアーニの画像削除
+	my $after_rep_str9 ="";
+	my $before_rep_str9 = "<p><a href=\"http://blog.glober.jp/?cat=72\"><img.*</p><br />";
+	$goods_info0 =~ s/$before_rep_str9/$after_rep_str9/g;
+	# クルチアーニのリンク削除
+	my $after_rep_str9_2 ="http://store.shopping.yahoo.co.jp/hff/146701111.html";
+	my $before_rep_str9_2 = "http://glober.jp/g/g14670/";
+	$goods_info0 =~ s/$before_rep_str9_2/$after_rep_str9_2/g;
 	# 商品説明を格納
 	$spec_str="$spec_str$goods_info0";
 	# 商品スペックは一つ目の商品のものを使用
@@ -2610,12 +2629,278 @@ HTML_STR_6
 ##############################
 ## (Yahoo)explanation情報の生成
 ##############################
+=pod
 sub create_y_explanation {
 	# 楽天スマートフォン用商品説明文でストックした情報を出力
 	$smp_yahoo_spec =~ s/<br \/><br \/>/\n\n/g;
 	$smp_yahoo_spec =~ s/<br \/>//g;
 	my $explanation=$smp_yahoo_spec;
 	return $explanation;
+}
+=cut
+sub create_y_explanation {
+	my $smp_yahoo_spec = "";
+	# 商品番号を追加
+	my $str_goods_code = "商品番号";
+	Encode::from_to( $str_goods_code, 'utf8', 'shiftjis' );
+	my $coron="：";
+	Encode::from_to( $coron, 'utf8', 'shiftjis' );
+	my $paragraph="<br />";
+	my $entry_code =$global_entry_goods_info[0];
+	$smp_yahoo_spec .= "$str_goods_code"."$coron"."$entry_code"."\n";
+	# カラーを追加
+	if ($global_entry_goods_info[5] ne "") {
+		my $color_str = "カラー";
+		Encode::from_to( $color_str, 'utf8', 'shiftjis' );
+		$smp_yahoo_spec .= "$color_str"."$coron"."$global_entry_goods_info[5]"."\n";
+	}
+	# 商品スペックを追加
+	my @specs;
+	my $spec_count = @global_entry_goods_spec_info;
+	foreach my $spec_sort_num ( @globel_spec_sort ) {
+		for (my $i=0; $i < $spec_count; $i+=2) {
+			my $spec_num = $global_entry_goods_spec_info[$i];
+			my $spec_name = &get_spec_info_from_xml($spec_num);
+			my $spec_info="";
+			if ($spec_num ne $spec_sort_num) {
+				next;
+			}
+			if ($spec_num == 7) {
+				# ギフトのパッケージ名を変換
+				my $gift_name="GLOBERオリジナルパッケージ";
+				Encode::from_to( $gift_name, 'utf8', 'shiftjis' );
+				chomp $global_entry_goods_spec_info[$i+1];
+				if ($global_entry_goods_spec_info[$i+1] eq $gift_name) {
+					$spec_info = "当店オリジナルパッケージ";
+					Encode::from_to( $spec_info, 'utf8', 'shiftjis' );
+				}
+				else {
+					$spec_info = $global_entry_goods_spec_info[$i+1];
+				}
+			}
+			else {
+				$spec_info = $global_entry_goods_spec_info[$i+1];
+				chomp $spec_info;
+			}
+			push(@specs, $spec_name);
+			push(@specs, $spec_info);
+			last;
+		}
+	}
+	# 商品スペックを追加
+	my $specs_count = @specs;
+	for (my $i=0; $i < $specs_count; $i+=2) {
+		my $spec_info = $specs[$i+1];
+		my $before_rep_str_spec1="<br \/>";
+		my $after_rep_str_spec1=" ";
+		$spec_info =~ s/$before_rep_str_spec1/$after_rep_str_spec1/g;
+		my $before_rep_str_spec2="<br>";
+		my $after_rep_str_spec2=" ";
+		$spec_info =~ s/$before_rep_str_spec2/$after_rep_str_spec2/g;
+		$smp_yahoo_spec .= "$specs[$i]"."$coron"."$spec_info";
+		# 最後以外は／で区切る
+		if (($i+2) < $specs_count) {
+			$smp_yahoo_spec .= "\n";
+		}
+	}
+	$smp_yahoo_spec .= "\n\n";
+	# 商品コメント2を取得
+	my $goods_info_smp = $global_entry_goods_supp_info[1] || "";
+	my $before_rep_str8="\\n\\n";
+	my $after_rep_str8="\\n";
+	$goods_info_smp =~ s/$before_rep_str8/$after_rep_str8/g;
+	# <span>タグの削除
+	my $before_rep_str8_1="<span>";
+	my $after_rep_str8_1="";
+	$goods_info_smp =~ s/$before_rep_str8_1/$after_rep_str8_1/g;
+	# </span>タグの削除
+	my $before_rep_str8_2="</span>";
+	my $after_rep_str8_2="";
+	$goods_info_smp =~ s/$before_rep_str8_2/$after_rep_str8_2/g;
+	# 1行ごとにサイズ要素のみの配列を作る
+	my $before_str9="<table class=\"infoTable\"><tr><td><table>";
+	my $after_str9="";
+	$goods_info_smp =~ s/$before_str9/$after_str9/g;
+	# 1行ごとにサイズ要素のみの配列を作る
+	my $before_str10="<\/table><\/td><\/tr><\/table>";
+	my $after_str10="";	
+	$goods_info_smp =~ s/$before_str10/$after_str10/g;
+	# サイズチャートがgoods_suppに入力されている場合
+	if ($goods_info_smp ne "") {
+		# スマホ用サイズチャートのヘッダー
+		my $smp_sizechart_header = "【サイズチャート】\n" || "";
+		Encode::from_to( $smp_sizechart_header, 'utf8', 'shiftjis' );
+		# GLOBERのサイズチャートを改行で分割して配列にする
+		my @goods_info_str_list_tr = split(/<tr>/, $goods_info_smp);
+		my @goods_info_str_list_sub = split(/<\/th>/, $goods_info_str_list_tr[1]);
+		# GLOBERのサイズチャートの行数を格納する
+		my $goods_info_str_list_count=@goods_info_str_list_tr;
+		# スマホサイズチャートを宣言
+		my $smp_sizechart ="$smp_sizechart_header";
+		#GLOBERのサイズチャートを<tr>の行ごとに読み込み、1行ずつ処理して変数に追加していく。
+		my $i=2;
+		# 1行<tr>にあたりにおけるサイズの項目数
+		my $size_i=0;
+		while ($i <= $goods_info_str_list_count-1){
+			# 1行ごとにサイズ要素のみの配列を作る
+			my $before_str1="<\/tr>";
+			my $after_str1="";	
+			$goods_info_str_list_tr[$i] =~ s/$before_str1/$after_str1/g;
+			my @goods_info_str_list_size = split(/<\/td><td>/, $goods_info_str_list_tr[$i]);
+			# サイズの要素数を格納する
+			my $goods_info_str_list_size_count=@goods_info_str_list_size;
+			# サイズ要素数が1つのとき
+			if ($goods_info_str_list_size_count ==2){
+				if ($size_i==0){
+					my $before_str_1="<td class=\'col01\'>";
+					my $before_str_2="<td class=\"col01\">";
+					my $after_str="<br />";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_1/$after_str/g;
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str/g;
+					$goods_info_str_list_size[$size_i] = "$goods_info_str_list_size[$size_i]";
+					$smp_sizechart .= $goods_info_str_list_size[$size_i];
+					$size_i++;
+					next;
+				}
+				else {
+					# サイズ項目の余計な文字列を削除
+					my $before_str="<th>";
+					my $after_str="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str/$after_str/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\/tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/td><\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/td>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_4="<\/tr>";
+					my $after_str_4="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "("."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
+					$size_i=0;
+					$i++;
+				}
+			}
+			# サイズ要素数が2以上のとき
+			else{
+				# サイズ要素のみの配列を1つずつサイズの要素とサイズ項目を組み合わせてスマホ用サイズチャートを作る
+				# 1番目はサイズで余分な文字列を省き、ヘッダーを追加してサイズチャートに格納する
+				if ($size_i==0){
+					my $before_str_1="<td class=\'col01\'>";
+					my $before_str_2="<td class=\"col01\">";
+					my $after_str="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_1/$after_str/g;
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str/g;
+					$goods_info_str_list_size[$size_i] = "$goods_info_str_list_size[$size_i]";
+					$smp_sizechart .= $goods_info_str_list_size[$size_i];
+					$size_i++;
+					next;
+				}
+				# 2番目はサイズ要素のスタートなので、（をつけて1番目のサイズ項目を組み合わせてサイズチャートに格納する
+				elsif($size_i==1 ){
+					# サイズ項目の余計な文字列を削除
+					my $before_str="<th>";
+					my $after_str="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str/$after_str/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\/tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/td><\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/td>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_4="<\/tr>";
+					my $after_str_4="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "("."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]";
+					$size_i++;
+					next;
+				}
+				elsif($size_i<$goods_info_str_list_size_count-1){
+					# サイズ項目の余計な文字列を削除
+					my $before_str_0="<th>";
+					my $after_str_0="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_0/$after_str_0/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\/tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/td><\/tr>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]";
+					$size_i++;
+					next;
+				}
+				else{
+					# サイズ項目の余計な文字列を削除
+					my $before_str_0="<th>";
+					my $after_str_0="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_0/$after_str_0/g;
+					# サイズ項目の余計な文字列を削除
+					my $before_str_1="<\tr>";
+					my $after_str_1="";	
+					$goods_info_str_list_sub[$size_i] =~ s/$before_str_1/$after_str_1/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_2="<\/td><\/tr>";
+					my $after_str_2="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_2/$after_str_2/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_3="<\/tr>";
+					my $after_str_3="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_3/$after_str_3/g;
+					# サイズ要素の余計な文字列を削除
+					my $before_str_4="<\/td>";
+					my $after_str_4="";	
+					$goods_info_str_list_size[$size_i] =~ s/$before_str_4/$after_str_4/g;
+					chomp($goods_info_str_list_size[$size_i]);
+					$smp_sizechart .= "/"."$goods_info_str_list_sub[$size_i]"."$goods_info_str_list_size[$size_i]".")"."\n";
+					$size_i=0;
+					$i++;
+				}
+			}
+		}
+		$smp_sizechart =~ s/\n\)/\)/g;
+		$smp_yahoo_spec .= $smp_sizechart."\n";
+	}
+my $html_str_end=
+<<"HTML_STR_end";
+・ディスプレイにより、実物と色、イメージが異なる事がございます。あらかじめご了承ください。
+・当店では、他店舗と在庫データを共有しているため、まれに売り切れや入荷待ちの場合がございます。
+HTML_STR_end
+	Encode::from_to( $html_str_end, 'utf8', 'shiftjis' );
+	$smp_yahoo_spec .=$html_str_end;
+	# 5120byte制限チェック
+	my $len = length $smp_yahoo_spec;
+	if ($len > 5120) {
+		# ログファイル出力
+		my $warn = "スマートフォン用商品説明文がサイズ制限(5120byte)を超えています。商品番号：$global_entry_goods_info[0] サイズ：$len(byte)";
+		Encode::from_to( $warn, 'utf8', 'shiftjis' );
+		&output_log("$warn\n");
+	}
+	print $smp_yahoo_spec."\n";
+	return $smp_yahoo_spec;
 }
 
 ##############################
