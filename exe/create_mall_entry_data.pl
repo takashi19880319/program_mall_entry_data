@@ -421,6 +421,7 @@ our @globel_spec_sort=&get_spec_sort_from_xml();
 while(my $image_num_line = $input_image_num_csv->getline($input_image_num_file_disc)){
 	##### goods.csvファイルの読み出し
 	my $entry_goods_code=@$image_num_line[0];
+	my $entry_goods_count=@$image_num_line[1];
 	# goodsファイルの読み出し(項目行分1行読み飛ばし)
 	seek $input_goods_file_disc,0,0;
 	my $goods_line = $input_goods_csv->getline($input_goods_file_disc);
@@ -441,7 +442,7 @@ while(my $image_num_line = $input_image_num_csv->getline($input_image_num_file_d
 		if ($entry_goods_code eq $goods_code) {
 			if (!$is_find_goods_info) {
 				# goods.cvsの商品情報を保持(SKUのものは一つ目に合致した商品の情報を保持)
-				push(@global_entry_goods_info,($entry_goods_code,@$goods_line[1],@$goods_line[2],@$goods_line[3],@$goods_line[5],@$goods_line[6], @$goods_line[11]));
+				push(@global_entry_goods_info,($entry_goods_code,@$goods_line[1],@$goods_line[2],@$goods_line[3],@$goods_line[5],@$goods_line[6], @$goods_line[11],$entry_goods_count));
 				$is_find_goods_info=1;
 			}				
 			if (length($entry_goods_code) == 7) {
@@ -2279,7 +2280,7 @@ HTML_STR_12
 	$pc_goods_detail="$pc_goods_detail"."$html_str10";
 	return $pc_goods_detail;
 }
-
+=pod
 ##############################
 ## (楽天)商品画像URLの生成
 ##############################
@@ -2307,6 +2308,34 @@ HTML_STR_1_WOMENS
 		$image_url_str=$html_str1_womens;
 	}
         return "$image_url_str"."$global_entry_goods_info[0]"."_1.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_2.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_3.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_4.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_5.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_6.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_7.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_8.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_a_1.jpg";
+}
+=cut
+##############################
+## (楽天)商品画像URLの生成
+##############################
+sub create_r_goods_image_url {
+	my $img_url ="";
+        my $image_url_str="http://image.rakuten.co.jp/hff/cabinet/pic/";
+        my $img_count = $global_entry_goods_info[7];
+        for (my $i=1; $i<=$global_entry_goods_info[7]; $i++ ){
+		my $space ="";
+		if($i == 1){
+			$space="";
+		}
+		else {
+			$space=" ";
+		}
+		#9枚以上は表示できないため、9枚目で終わらせる。
+		if($i == 9){
+			$i = "a_1";
+			$img_url .= $space.$image_url_str.$global_entry_goods_info[0]."_".$i.".jpg";
+			last;
+		}
+		else{
+			$img_url .= $space.$image_url_str.$global_entry_goods_info[0]."_".$i.".jpg";
+		}
+	}
+        return $img_url;
 }
 
 ##############################
@@ -2899,7 +2928,6 @@ HTML_STR_end
 		Encode::from_to( $warn, 'utf8', 'shiftjis' );
 		&output_log("$warn\n");
 	}
-	print $smp_yahoo_spec."\n";
 	return $smp_yahoo_spec;
 }
 
