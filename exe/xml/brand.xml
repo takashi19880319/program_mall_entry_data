@@ -642,7 +642,7 @@
 		<category_name>ヴァッツォレール</category_name>
 		<brand_name>ヴァッツォレール/Vazzoler</brand_name>
 		<r_dictionary>&lt;ul class="link1"&gt;
-&lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/brand/william/vazzoler_br.html&gt;ブランド&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/brand/vazzoler/vazzoler_br.html&gt;ブランド&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/repair.html target=_blank&gt;お直しについて&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</r_dictionary>
 		<r_image>brand_top_wi</r_image>
 		<r_category>ブランドをチェック\ア行\ヴァッツォレール</r_category>
@@ -660,6 +660,29 @@
 &lt;tr&gt;
 &lt;td class="brand_BIG-T"&gt;&lt;span style="font-size:medium;"&gt;&lt;strong&gt;</y_dictionary>
 		<y_path>ヴァッツォレール/Vazzoler</y_path>
+	</brand>
+	<brand>
+		<category_name>ヴィガーノ</category_name>
+		<brand_name>ヴィガーノ/Vigano</brand_name>
+		<r_dictionary>&lt;ul class="link1"&gt;
+&lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/brand/vigano/vigano_br.html&gt;ブランド&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/repair.html target=_blank&gt;お直しについて&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</r_dictionary>
+		<r_image>brand_top_vigano</r_image>
+		<r_category>ブランドをチェック\ア行\ヴィガーノ</r_category>
+		<y_dictionary>&lt;div align="right"&gt;
+&lt;table border="0" cellpadding="0" cellspacing="3"&gt;
+&lt;tr&gt;
+&lt;td align="right" valign="middle" bgcolor="#ffffff"&gt;&lt;img src="http://lib7.store.yahoo.co.jp/lib/hff/button.gif" width="15" height="15"&gt;&lt;/td&gt;
+&lt;td valign="middle" nowrap bgcolor="#ffffff"&gt;&lt;a href="vigano-br.html" title="ヴィガーノ:ブランド"&gt;&lt;font color="#000000" size="2"&gt;ブランド&lt;/font&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;!--タイトルここから --&gt;
+&lt;br&gt;
+&lt;table width="600" border="0" cellspacing="0" cellpadding="0"&gt;
+&lt;tr&gt;
+&lt;td class="brand_BIG-T"&gt;&lt;span style="font-size:medium;"&gt;&lt;strong&gt;</y_dictionary>
+		<y_path>ヴィガーノ/Vigano</y_path>
 	</brand>
 	<brand>
 		<category_name>エーグル WOMEN'S</category_name>
@@ -4242,6 +4265,29 @@
 &lt;td class="brand_BIG-T"&gt;&lt;span style="font-size:medium;"&gt;&lt;strong&gt;</y_dictionary>
 		<y_path>マッキントッシュ　WOMEN'S/Mackintosh</y_path>
 		<y_brand_code>1901</y_brand_code>
+	</brand>
+	<brand>
+		<category_name>マッシモ</category_name>
+		<brand_name>マッシモ/Massimo</brand_name>
+		<r_dictionary>&lt;ul class="link1"&gt;
+&lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/brand/massimo/massimo_br.html&gt;ブランド&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=http://www.rakuten.ne.jp/gold/hff/repair.html target=_blank&gt;お直しについて&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</r_dictionary>
+		<r_image>brand_top_massimo</r_image>
+		<r_category>ブランドをチェック\マ行\マッシモ</r_category>
+		<y_dictionary>&lt;div align="right"&gt;
+&lt;table border="0" cellpadding="0" cellspacing="3"&gt;
+&lt;tr&gt;
+&lt;td align="right" valign="middle" bgcolor="#ffffff"&gt;&lt;img src="http://lib7.store.yahoo.co.jp/lib/hff/button.gif" width="15" height="15"&gt;&lt;/td&gt;
+&lt;td valign="middle" nowrap bgcolor="#ffffff"&gt;&lt;a href="massimo-br.html" title="マッシモ:ブランド"&gt;&lt;font color="#000000" size="2"&gt;ブランド&lt;/font&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;!--タイトルここから --&gt;
+&lt;br&gt;
+&lt;table width="600" border="0" cellspacing="0" cellpadding="0"&gt;
+&lt;tr&gt;
+&lt;td class="brand_BIG-T"&gt;&lt;span style="font-size:medium;"&gt;&lt;strong&gt;</y_dictionary>
+		<y_path>マッシモ/Massimo</y_path>
 	</brand>
 	<brand>
 		<category_name>マドヴァ</category_name>
