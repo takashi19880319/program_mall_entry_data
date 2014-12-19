@@ -2280,36 +2280,7 @@ HTML_STR_12
 	$pc_goods_detail="$pc_goods_detail"."$html_str10";
 	return $pc_goods_detail;
 }
-=pod
-##############################
-## (楽天)商品画像URLの生成
-##############################
-sub create_r_goods_image_url {
-	
-my $html_str1=
-<<"HTML_STR_1";
-http://image.rakuten.co.jp/hff/cabinet/pic/
-HTML_STR_1
-        chomp($html_str1);
-my $html_str1_womens=
-<<"HTML_STR_1_WOMENS";
-http://image.rakuten.co.jp/hff/cabinet/pic/
-HTML_STR_1_WOMENS
-        chomp($html_str1_womens);
-        
-        my $image_url_str="";
-	# WOMEN'Sの商品だったら画像格納先を変更
-	if (index($global_entry_goods_info[1], "WOMEN'S", 0) == -1) {
-		# MEN'Sの商品
-		$image_url_str=$html_str1;
-	}
-	else {
-		# WOMEN'Sの商品
-		$image_url_str=$html_str1_womens;
-	}
-        return "$image_url_str"."$global_entry_goods_info[0]"."_1.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_2.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_3.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_4.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_5.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_6.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_7.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_8.jpg"." "."$image_url_str"."$global_entry_goods_info[0]"."_a_1.jpg";
-}
-=cut
+
 ##############################
 ## (楽天)商品画像URLの生成
 ##############################
