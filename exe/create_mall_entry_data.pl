@@ -782,7 +782,6 @@ sub add_rakuten_item_data {
 	# スマートフォン用商品説明文
 	$output_item_csv->combine(&create_ry_smp_goods_spec()) or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
-	exit;
 	# PC用販売説明文
 	$output_item_csv->combine("") or die $output_item_csv->error_diag();
 	print $output_item_file_disc $output_item_csv->string(), ",";
