@@ -1980,6 +1980,10 @@ HTML_STR_2
 	my $before_rep_str4="<a href=\"http://seal.*FCS&f2=glober.jp";
 	$goods_comment_1 =~ s/$before_rep_str4/$after_rep_str4/g;
 	# フェリージのリンク変換2
+	my $after_rep_str4_1="";
+	my $before_rep_str4_1="style=\"border-style: none;\" ";
+	$goods_comment_1 =~ s/$before_rep_str4_1/$after_rep_str1/g;
+	# フェリージのリンク変換3
 	my $after_rep_str5="http://image.rakuten.co.jp/hff/cabinet/pic/felisi/felisi_seal.gif";
 	my $before_rep_str5="http://seal.felisi.net/FCSSeal/images/fcs_230x60_json.gif";
 	$goods_comment_1 =~ s/$before_rep_str5/$after_rep_str5/g;
